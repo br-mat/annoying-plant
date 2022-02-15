@@ -17,7 +17,8 @@ This is a talking plant project requiring a RaspberryPi Pico a DF-mini player mo
 ---
 #### DS3231 RTC Module
 <p>
- textText Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
+The DS3231 is a low-cost, extremely accurate I²C real-time clock (RTC) with an integrated temperature-compensated crystal oscillator (TCXO) and crystal. The device incorporates a batteryslott. When running this Module on active supply voltage it is advised to cut XXXXXXXX if you use a battery. Recharging a non-rechargeable battery is dangerous. It should be avoided at all costs.
+CMOS Open-Drain
 </p>
 
 #### NAND Gate
@@ -79,13 +80,24 @@ The Pico is powered by the RP-2040 Chip sitting in the middle of the board, avoi
 We can now program the Pin’s of the module to switch HIGH/LOW or read analog Signals (Voltage levels). This offers a wide range of possible applications which can be easy realized, we just need to be aware of some basic concepts to not risk damaging the module itself. Although it is usually quite resistant to little accidents in a certain extent. <br>
 The Output capability of the Pico is limited, for switching higher loads its important to not exceed the parts limits. Measure negative voltages is neither a good idea because it can damage the part.
 </p>
-Pinout source: "http://land-boards.com/blwiki/images/thumb/5/56/Raspberry-Pi-Pico-Pinout.jpg/730px-Raspberry-Pi-Pico-Pinout.jpg"
-Datasheet source: "https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf"
+
+<br>
+
+[Pinout source](http://land-boards.com/blwiki/images/thumb/5/56/Raspberry-Pi-Pico-Pinout.jpg/730px-Raspberry-Pi-Pico-Pinout.jpg) <br>
+[Datasheet source](https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf)
+
+<br>
 
 ---
 ### microPython
 ---
-<p>
- Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
-</p>
+
+MicroPython is a efficient implementation of the Python 3 programming language and is optimised to run on microcontrollers and in constrained environments, like our Pico. It includes a small subset of the Python standard librarys, but its more than sufficient to the needs of this project. <br>
+We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of electronic projects. <br>
+<br>
+
+latest version of [Thonny](https://thonny.org/)
+<br>
+
+
 
