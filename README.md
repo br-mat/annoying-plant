@@ -1,4 +1,4 @@
-# anoying_plant
+# annoying_plant
 ---
 ## About
 <p>
