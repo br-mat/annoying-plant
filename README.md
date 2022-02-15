@@ -12,24 +12,7 @@ This is a talking plant project requiring a RaspberryPi Pico a DF-mini player mo
 
 ---
 ## Basics
----
-### Modules & ICs
----
-#### DS3231 RTC Module
-<p>
-The DS3231 is a low-cost, extremely accurate I²C real-time clock (RTC) with an integrated temperature-compensated crystal oscillator (TCXO) and crystal. The device incorporates a batteryslott. When running this Module on active supply voltage it is advised to cut XXXXXXXX if you use a battery. Recharging a non-rechargeable battery is dangerous. It should be avoided at all costs.
-CMOS Open-Drain
-</p>
 
-#### NAND Gate
-<p>
- text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
-</p>
-
-#### DF-mini-player
-<p>
- text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
-</p>
 
 ---
 ### Electronic Basics
@@ -58,6 +41,54 @@ Only some important parts are listed for this project.
 *Example:* Often used as rectifiers. A special case among diodes are LED, when current flows through them they emit light of a certain wave length.
 - **Capacitor:** Capacitors are Conducting plates parallel to each other. They are able to draw energy from a source and store it. Inside the two metal plates separated by a non-conducting substance. When activated, a capacitor quickly releases electricity in a tiny fraction of a second. <br>
 *Example:* They can be used to flatten fluctuation supply. Placed close to the supply Pins of any IC (integrated circuit) a capacitor stabilize the IC’s voltage supply.
+
+---
+### Modules & ICs
+---
+#### DS3231 RTC Module
+<p>
+
+The DS3231 is a low-cost, extremely accurate I²C real-time clock (RTC) with an integrated temperature-compensated crystal oscillator. The device incorporates a batteryslott. When running this Module on active supply voltage and a battery, it is advised to remove either Resistor or the Diode itself or cut the wire inbetween them. Recharging a non-rechargeable battery is dangerous. It should be avoided at all costs. <br>
+
+The Output Pins of the module are CMOS Open-Drain, so we need to add a Pull-up resistor to pull it on an active HIGH level to our microcontroller to notice it. In our case this would be the **SQW** pin. <br>
+
+This would be true for our serial communication pins too (**SDA**, **SCL**) usually this is already implemented with the intern pullup's of the microcontroller.
+
+</p>
+
+![battery security](./docs/battery_protection_ds3231.PNG)
+
+The picture shows our module, with the diode and resistor mentioned above marked with a red arrow. <br>
+- **32K** outputs a 32kHz signal
+- **SQW/INT** outputs either a square wave signal or an interupt signal to wakeup our microController
+- **SCL** Serial Clock, communication: i²c (inter integrated circuit)
+- **SDA** Serial Data, communication: i²c
+- **VCC** Supply Pin
+- **GND** Ground Pin
+
+<br>
+
+#### NAND Gate
+<p>
+
+NAND stands for **not** **and**, what this mean can be shown in the truth table of this gate. Basically the output is always HIGH except when both inputs are HIGH. In the picture below A and B are the inputs while C is the output. The output also requires an pullup resistor to pull the signal level to HIGH as its cmos-open-drain. <br>
+
+![battery security](./docs/truthtable.PNG)
+
+We use a CD40107BE IC the datasheet can be found in the docs folder, the truth table was also taken from the datasheet. <br>
+
+A special use case for the NAND Gate is to invert incomming signals, when we combine the pins A and B it's inverting the signal we supply to the combination of the two. You also can see this first and last lane of the truth table. <br>
+
+We can now use this Gate to create a flip flop. This is a special circuit designed to store a specific state (HIGH or LOW).
+
+</p>
+
+<br>
+
+#### DF-mini-player
+<p>
+ text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
+</p>
 
 ---
 ### Savety
