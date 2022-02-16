@@ -44,8 +44,10 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 ---
 
 <p>
+
 The project is powered by a 5V USB cable or a 9V Block-battery. With this Voltages you don't need to worry when touching something active powered. The resistance of our skin is typically high enough so you wont feel any effects of the small current flowing through your boddy. <br>
 Wrongly connect or shorting the circuit can ruin some parts, but you typically will notice them gettin warm first which leaves you sometimes enough time to unplug whatever you might have missconnected. If you follow the instructions you should be on the save side, althugh i garuantee nothing.
+
 </p>
 
 ---
@@ -54,28 +56,39 @@ Wrongly connect or shorting the circuit can ruin some parts, but you typically w
 If you are somewhat experienced you can skip this part, as it is mainly to explain the basic function of commonly used electronic parts.
 
 #### ***Ohm's law:***
+
 <p>
-Probably the most common basic is that electric energy flow in form of electrons from higher to lower voltage levels. The amount of current flowing through your wires is depending on the resistance of the path the electrons are traveling. This leads to a well-known and basic formula: U=R*I.
+
+Probably the most common basic is that electric energy flow in form of electrons from higher to lower voltage levels. The amount of current flowing through your wires is depending on the resistance of the path the electrons are traveling. This leads to a well-known and basic formula:
+
 <br>
+
 <pre><code>U=R*I
 U is our voltage, R is the value of our resistance in ohm and I stand for the amount of current in ampere.
+
 </code></pre>
+
 That to be said let’s think about that law quickly, everything including wires have a certain value for resistance. With a shorted wire from voltage source to ground we usually can expect almost infinite amount of energy to flow (wire resistance really low - close to 0) dependend of outputcapability of the source. <br> When we add an resistor with let’s say 1000 ohm and our source provides 5V like every USB plug, a current of 0.001 ampere should flow (1mA). The formula used for this comes from Ohm's law I=U/R as you can see this simple formula is quite easy to use and will appear quite often from now on. <br>
-I want to add a short reminder on how to calculate resistance. Resistors in series can be added together. For parallel resistors it’s a little different, ***************YxYxasdadfsv***
+I want to add a short reminder on how to calculate resistance. Resistors in series can be added together. For parallel resistors it’s a little different and more complicated, [see](https://en.wikipedia.org/wiki/Resistor).
 </p>
 
 
 #### ***Electronic components:***
+
+<p>
+
 Only some important parts are listed for this project.
-- **Resistor:** A resistor is a passive electrical component that implements electrical resistance as a circuit element. In electronic circuits, resistors are used to reduce current flow, adjust signal levels, to divide voltages and many other uses. <br>
+- [**Resistor:**](https://en.wikipedia.org/wiki/Resistor) A resistor is a passive electrical component that implements electrical resistance as a circuit element. In electronic circuits, resistors are used to reduce current flow, adjust signal levels, to divide voltages and many other uses. <br>
 The resistance value of the part is given in ohm. <br>
 *Example:*  Limiting the amount of current flowing through LED's or Pulling Wires to a certain level while not shorting the circuit. For example, if something needs a signal default High on the input it can be realized with a Pull-up resistor to the supply voltage. This prevent a short circuit if the pin is switched low.
-- **Transistor:** The electronic equivalent of a switch. With two main categories, MOSFET YYYYYYYYYYYYYY and Bipolar YYYYYYYY. Both of them comes with N- and P-doped variants. The range of application is wide. They can be used as amplifier or simply as switches. For our purpose only the use of as switch (in saturation) is relevant. <br>
+- [**Transistor:**](https://en.wikipedia.org/wiki/Transistor) The electronic equivalent of a switch. With two main categories, MOSFET  and Bipolar. Both of them comes with N- and P-doped variants. The range of application is wide. They can be used as amplifier or simply as switches. For our purpose only the use of as switch (in saturation) is relevant. <br>
 *Example:* Using an Npn bipolar transistor we could switch High currents directly from the source. Without risk to damage a Pin of the microcontroller due to overload.
-- **Diode:** Is an electrical component that allow current to flow only in one direction. <br>
+- [**Diode:**](https://en.wikipedia.org/wiki/Diode) Is an electrical component that allow current to flow only in one direction. <br>
 *Example:* Often used as rectifiers. A special case among diodes are LED, when current flows through them they emit light of a certain wave length.
-- **Capacitor:** Capacitors are Conducting plates parallel to each other. They are able to draw energy from a source and store it. Inside the two metal plates separated by a non-conducting substance. When activated, a capacitor quickly releases electricity in a tiny fraction of a second. <br>
+- [**Capacitor:**](https://en.wikipedia.org/wiki/Capacitor) Capacitors are Conducting plates parallel to each other. They are able to draw energy from a source and store it. Inside the two metal plates separated by a non-conducting substance. When activated, a capacitor quickly releases electricity in a tiny fraction of a second. <br>
 *Example:* They can be used to flatten fluctuation supply. Placed close to the supply Pins of any IC (integrated circuit) a capacitor stabilize the IC’s voltage supply.
+
+</p>
 
 ---
 ### Modules & ICs
@@ -115,14 +128,16 @@ We use a CD40107BE IC the datasheet can be found in the docs folder, the truth t
 
 A special use case for the NAND Gate is to invert incomming signals, when we combine the pins A and B it's inverting the signal we supply to the combination of the two. You also can see this in first and last lane of the truth table, where A and B are equal. <br>
 
-We can now use this Gate to create a flip flop. This is a special circuit designed to store a specific state (HIGH or LOW).
+We can now use this gate to create a flip flop. This is a special circuit designed to store a specific state as to 1 or 0 (HIGH or LOW) representing supply voltage level and ground level in most cases.
 
 </p>
 
 <br>
 
 #### DF-mini-player
+
 <p>
+
 This module is able to drive an analoge speaker. It needs to be supplied with 3.2 - 5 Volts.
 The file system supports up to 32GB on the microSD card. It can be controlled either by buttons on the hardware side or with commands through software.
 
@@ -140,7 +155,9 @@ The file system supports up to 32GB on the microSD card. It can be controlled ei
 ---
 ### RaspberryPi Pico
 ---
+
 <p>
+
 Raspberry Pi Foundation entrance in the world of microcontrollers. The company itself is well known for its single board computers. This much smaller module comes with a fairly good price. The difference between the bigger RaspberryPi's is that not supposed to be a whole computer. Therefore it comes with less computing power and programmable memory space and probably more important no Operating system. That to be said you program the function of the module on your own. It is also suitable for low power applications because it does not need that much power.
 <br>
 The technical aspects can be found in the Datasheet linked below:
@@ -150,7 +167,9 @@ The Pico is powered by the RP-2040 Chip sitting in the middle of the board, avoi
 We can now program the Pin’s of the module to switch HIGH/LOW or read analog Signals (Voltage levels). This offers a wide range of possible applications which can be easy realized, we just need to be aware of some basic concepts to not risk damaging the module itself. Although it is usually quite resistant to little accidents in a certain extent. <br>
 The Output capability of the Pico is limited (~20mA), for switching higher loads its important to not exceed the parts limits. For switching higher currents use rellais or transistors. Measure or apply negative voltages is neither a good idea because it can damage the part too. This should not be achievable without a propper voltage supply, except for accidentally mistake GND and VCC. <br>
 For more information look at the Datasheet provided below, but more Important is the Pinout scematic, as it is shown there the number and type of our Pins.
+
 </p>
+
 <br>
 
 [Pinout source](http://land-boards.com/blwiki/images/thumb/5/56/Raspberry-Pi-Pico-Pinout.jpg/730px-Raspberry-Pi-Pico-Pinout.jpg)
@@ -208,6 +227,7 @@ Now click on save, there should now apper a window asking you where u want to sa
 When you hit the **Run** button the programm should start to execute on the Pico, if you want to stop the code hit the red **STOP**.
 
 ![Run sketch](./docs/thonny4.png)
+
 <br>
 
 A better way to implement something similar is shown in blink.py from the code folder. Load it or copy the code manually into your ThonnyIDE.
@@ -243,8 +263,7 @@ In the game you can build an inverter out of a redstone wire and a redstone torc
 
 ![Minecraft FF](./docs/mc_ff.png)
 
-In real world application the way this works is basically the same. We connect two inverters together, which eventually forms our Flip-flop. As an inverter we can use our NAND Gates. There is one more important thing, a forbidden state exists when both inputs are activated at the same time. This state is not really dangerous in our case but you simply cant really tell how the circuit is gonna react to it, loosing correct state of the machine could cause problems.
-<br>
+In real world application the way this works is basically the same. We connect two inverters together, which eventually forms our Flip-flop. As an inverter we can use our NAND Gates. There is one more important thing, a forbidden state exists when both inputs are activated at the same time. This state is not really dangerous in our case but you simply cant really tell how the circuit is gonna react to it, loosing correct state of the machine could cause problems. <br>
 
 Now we gona build a small circuit to test this functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire and hold it onto the ground rail. <br>
 
@@ -261,4 +280,13 @@ Now we gona test the function of the DFPlayer module. Build your circuit on the 
 
 Then you have to upload the 0001.mp3 file from the mp3 folder to the SD-card. The naming of the file is important to work with the selected library for this module. <br>
 Load the dfplayer_example.py onto the Pico. When you look at the code you will notice that we import something, in this case this is not part of the standard library so we will need to deploy that code too on the Pico. Again simply save it with the correct name dfplayermini.py onto the controller. <br>
-TEXT TEXT text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text 
+If you hit the play sign again it should start with the programm, in this case it should play the beginning of a song for about 15 seconds and then lower the volume until it reaches 0. Then the song should stop and the device should go back to sleep. <br>
+
+See the code here: [dfplayer_example.py](./code/dfplayer_example.py) <br>
+
+Changing the code is pretty simple i'll provide an example for each function of the library and how to use it: <br>
+<pre><code>
+code here follow soon!
+</code></pre>
+
+It is also possible to use this device manually. Take a loose wire connected to GND and tipp shortly on the **IO_2** Pin to select the next track. This will play the whole song. When holding these pins like its shown above in the Basic section, we can adjust the Volume. Therefor look at the Table there should be given a short description in the "Notes" of each pin how to controll it manually.
