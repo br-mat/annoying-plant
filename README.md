@@ -104,6 +104,7 @@ The picture shows our module, with the diode and resistor mentioned above marked
 <br>
 
 #### NAND Gate
+
 <p>
 
 NAND stands for **not** **and**, what this mean can be shown in the truth table of this gate. Basically the output is always HIGH except when both inputs are HIGH. In the picture below A and B are the inputs while C is the output. The output also requires an pullup resistor to pull the signal level to HIGH as its cmos-open-drain. <br>
@@ -123,7 +124,9 @@ We can now use this Gate to create a flip flop. This is a special circuit design
 #### DF-mini-player
 <p>
 This module is able to drive an analoge speaker. It needs to be supplied with 3.2 - 5 Volts.
-The file system supports up to 32GB on the microSD card. It can be controlled either by buttons on the hardware side or with commands through software. <br>
+The file system supports up to 32GB on the microSD card. It can be controlled either by buttons on the hardware side or with commands through software.
+
+<br>
 
 ![DFPlayer mini pinout](./docs/dfplayer1.png)
 
@@ -236,13 +239,14 @@ When you save the code to your Pico this time give the file the name **main.py**
 ## Lection 2: Flip flop & Input/Output
 ---
 A Flip-flop is a bistable circuit saving a electronic state. It's fundamental circuit to store digital information. Even in games like Minecraft you can build such a thing pretty quickly. <br>
-In the game you can build an inverter out of a redstone wire and a redstone torch attached to the block. When we connect two inverters this will form a Bistable state. Switching one of the buttons will cause the system to flip side and will stay that way untill the right button is pressed.
+In the game you can build an inverter out of a redstone wire and a redstone torch attached to the block. When we connect two inverters this will form a Bistable state. Switching one of the buttons will cause the system to flip side and will stay that way untill the other button is pressed. <br>
 
-![Minecraft FF](./docs/)
+![Minecraft FF](./docs/mc_ff.png)
 
-In real world application the way this works is basically the same. We connect two inverters together, which eventually forms our Flip-flop. As an inverter we can use our NAND Gates. There is one more important thing, a forbidden state exists when both inputs are activated at the same time. This state is not really dangerous but you simply cant really tell how the circuit is gonna react to it, loosing correct state of the machine could cause problems.
+In real world application the way this works is basically the same. We connect two inverters together, which eventually forms our Flip-flop. As an inverter we can use our NAND Gates. There is one more important thing, a forbidden state exists when both inputs are activated at the same time. This state is not really dangerous in our case but you simply cant really tell how the circuit is gonna react to it, loosing correct state of the machine could cause problems.
 <br>
-Now we gona build a small circuit to test these functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire and hold it onto the ground rail.
+
+Now we gona build a small circuit to test this functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire and hold it onto the ground rail. <br>
 
 ![Circuit FF](./docs/)
 
@@ -255,5 +259,6 @@ Now we gona test the function of the DFPlayer module. Build your circuit on the 
 
 ![Circuit DFPlayer](./docs/)
 
-Then you have to upload the 00.mp3 file from the mp3 folder to the SD-card. The naming of the file is important to work with the selected library for this module. <br>
-Load the dfplayer_example.py onto the Pico. When you look at the code you will notice that we import something, in this case this is not part of the standard library so we will need to deploy that code too on the Pico. Again simply save it with the correct name dfplayermini.py onto the controller.
+Then you have to upload the 0001.mp3 file from the mp3 folder to the SD-card. The naming of the file is important to work with the selected library for this module. <br>
+Load the dfplayer_example.py onto the Pico. When you look at the code you will notice that we import something, in this case this is not part of the standard library so we will need to deploy that code too on the Pico. Again simply save it with the correct name dfplayermini.py onto the controller. <br>
+TEXT TEXT text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text 
