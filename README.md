@@ -166,10 +166,10 @@ latest version of [Thonny](https://thonny.org/)
 
 If you have not already downloaded & installed [Thonny](https://thonny.org/) you should do this now. <br>
 After the installation is complete click on **Run - select interpreter** like shown below.
-![Thonny select interpreter](./docs/thonny1.PNG)
+![Thonny select interpreter](./docs/thonny1.png)
 
 Now select **MicroPython (Raspberry Pi Pico)**
-![micropython Pico](./docs/thonny2.PNG)
+![micropython Pico](./docs/thonny2.png)
 
 
 Now we can start to write the actual programm. Starting with a simple sketch to show basic functionality. Make sure your Pico is connected for the next steps. It should be select automatically the right port.
@@ -192,11 +192,11 @@ For more details on [time library](https://docs.micropython.org/en/latest/librar
 
 Now click on save, there should now apper a window asking you where u want to save. Hit the button to save on the Pico like shown below. **Important** use the file ending .py when saving your programm!
 
-![save on Pico](./docs/thonny3.PNG)
+![save on Pico](./docs/thonny3.png)
 
 When you hit the **Run** button the programm should start to execute on the Pico, if you want to stop the code hit the red **STOP**.
 
-![Run sketch](./docs/thonny4.PNG)
+![Run sketch](./docs/thonny4.png)
 <br>
 
 A better way to implement something similar is shown in blink.py from the code folder. Load it or copy the code manually into your ThonnyIDE.
