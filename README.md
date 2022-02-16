@@ -57,15 +57,16 @@ Probably the most common basic is that electric energy flow in form of electrons
 <pre><code>U=R*I
 U is our Voltage, R is the value of our Resistance in Ohm and I stand for the amount of current in Ampere.
 </code></pre>
-That to be said let’s think about that law quickly, everything including wires have a certain value for Resistance. With a shorted wire from Voltage source to ground we usually can expect almost infinite amount of energy to flow (wire resistance really low - close to 0). <br> When we add an Resistor with let’s say 1000 Ohm and our source provides 5V like every USB plug a current of 0.001 Ampere should flow (1mA). The formula used for this comes from Ohm's law I=U/R as you can see this simple formula is quite easy to use and will appear quite often from now on. <br>
-I want to add a short reminder on how to calculate resistance. Resistors in series can be added together. For parallel resistors it’s a little different, ******************
+That to be said let’s think about that law quickly, everything including wires have a certain value for Resistance. With a shorted wire from Voltage source to ground we usually can expect almost infinite amount of energy to flow (wire resistance really low - close to 0) dependend of outputcapability of the source. <br> When we add an Resistor with let’s say 1000 Ohm and our source provides 5V like every USB plug, a current of 0.001 Ampere should flow (1mA). The formula used for this comes from Ohm's law I=U/R as you can see this simple formula is quite easy to use and will appear quite often from now on. <br>
+I want to add a short reminder on how to calculate resistance. Resistors in series can be added together. For parallel resistors it’s a little different, ***************YxYxasdadfsv***
 </p>
 
 
 #### ***Electronic components:***
 Only some important parts are listed for this project.
-- **Resistor:** As it can be found above, this part have a resistance in Ohm. Often used to limit the current flowing through a path. <br>
-*Example:*  Limiting the amount of current flowing through LED's or Pulling Wires to a certain level while not shorting the circuit. For example, if something needs a signal default High on the input it can be realized with a Pull-up resistor to the supply voltage. When the Input is pulled low then only limited current from the source flows through the resistor.
+- **Resistor:** A resistor is a passive electrical component that implements electrical resistance as a circuit element. In electronic circuits, resistors are used to reduce current flow, adjust signal levels, to divide voltages and many other uses. <br>
+The resistance value of the part is given in Ohm. <br>
+*Example:*  Limiting the amount of current flowing through LED's or Pulling Wires to a certain level while not shorting the circuit. For example, if something needs a signal default High on the input it can be realized with a Pull-up resistor to the supply voltage. This prevent a short circuit if the pin is switched low.
 - **Transistor:** The electronic equivalent of a switch. With two main categories, MOSFET YYYYYYYYYYYYYY and Bipolar YYYYYYYY. Both of them comes with N- and P-doped variants. The range of application is wide. They can be used as amplifier or simply as switches. For our purpose only the use of as switch (in saturation) is relevant. <br>
 *Example:* Using an Npn bipolar transistor we could switch High currents directly from the source. Without risk to damage a Pin of the microcontroller due to overload.
 - **Diode:** Is an electrical component that allow current to flow only in one direction. <br>
