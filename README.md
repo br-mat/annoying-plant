@@ -1,6 +1,10 @@
 # annoying_plant
+
 ---
+
 ## About
+---
+
 <p>
 This is a talking plant project requiring a RaspberryPi Pico a DF-mini player module as well as a DS-3231 RTC-module (Real time clock).
  The main purpose of the project is a beginner friendly diy experience.
@@ -11,8 +15,35 @@ This is a talking plant project requiring a RaspberryPi Pico a DF-mini player mo
  </p>
 
 ---
-## Basics
 
+## Parts
+
+---
+
+- RaspberryPi Pico
+- Zs-042 (DS3231 RTC)
+- CD40107BE (2x NAND IC)
+- DFPlayer-mini, speaker & microSD-card
+- capacitive soil moisture sensor
+- Basic components:
+    * IRF4905 P-Mos
+    * 2n2222a NPN
+    * 2x 100nF Capacitor
+    * Resistors YYYYYYYYYYY
+    * LED's (optional)
+
+
+---
+## Basics
+---
+
+---
+### Safety
+---
+
+<p>
+Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text  
+</p>
 
 ---
 ### Electronic Basics
@@ -77,7 +108,7 @@ NAND stands for **not** **and**, what this mean can be shown in the truth table 
 
 We use a CD40107BE IC the datasheet can be found in the docs folder, the truth table was also taken from the datasheet. <br>
 
-A special use case for the NAND Gate is to invert incomming signals, when we combine the pins A and B it's inverting the signal we supply to the combination of the two. You also can see this first and last lane of the truth table. <br>
+A special use case for the NAND Gate is to invert incomming signals, when we combine the pins A and B it's inverting the signal we supply to the combination of the two. You also can see this in first and last lane of the truth table, where A and B are equal. <br>
 
 We can now use this Gate to create a flip flop. This is a special circuit designed to store a specific state (HIGH or LOW).
 
@@ -90,13 +121,7 @@ We can now use this Gate to create a flip flop. This is a special circuit design
  text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
 </p>
 
----
-### Savety
----
 
-<p>
-Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text  
-</p>
 
 ---
 ### RaspberryPi Pico
