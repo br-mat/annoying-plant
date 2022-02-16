@@ -8,8 +8,8 @@
 <p>
 
 This is a talking plant project requiring a RaspberryPi Pico a DFPlayer-mini module as well as a DS-3231 RTC-module (Real time clock).
-The main purpose of the project is a beginner friendly diy experience.
-Using Python as a quite easy to learn language and very simple basic modules and circuits.
+The main purpose of the project is a beginner friendly DIY experience.
+Using Python as a quite easy language to learn and very simple basic modules and circuits.
 It should give a small insight into the world of microcontrollers and what they are capable of.
 <br>
 I provided a short BASICS summary, to explain briefly basic functionalities in Python and electronics.
@@ -44,7 +44,8 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 ---
 
 <p>
-Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text  
+The project is powered by a 5V USB cable or a 9V Block-battery. With this Voltages you don't need to worry when touching something active powered. The resistance of our skin is typically high enough so you wont feel any effects of the small current flowing through your boddy. <br>
+Wrongly connect or shorting the circuit can ruin some parts, but you typically will notice them gettin warm first which leaves you sometimes enough time to unplug whatever you might have missconnected. If you follow the instructions you should be on the save side, althugh i garuantee nothing.
 </p>
 
 ---
@@ -54,12 +55,12 @@ If you are somewhat experienced you can skip this part, as it is mainly to expla
 
 #### ***Ohm's law:***
 <p>
-Probably the most common basic is that electric energy flow in form of electrons from higher to lower Voltage levels. The amount of current flowing through your wires is depending on the Resistance of the path the electrons are traveling. This leads to a well-known and Basic formula: U=R*I.
+Probably the most common basic is that electric energy flow in form of electrons from higher to lower voltage levels. The amount of current flowing through your wires is depending on the resistance of the path the electrons are traveling. This leads to a well-known and basic formula: U=R*I.
 <br>
 <pre><code>U=R*I
-U is our Voltage, R is the value of our Resistance in Ohm and I stand for the amount of current in Ampere.
+U is our voltage, R is the value of our resistance in ohm and I stand for the amount of current in ampere.
 </code></pre>
-That to be said let’s think about that law quickly, everything including wires have a certain value for Resistance. With a shorted wire from Voltage source to ground we usually can expect almost infinite amount of energy to flow (wire resistance really low - close to 0) dependend of outputcapability of the source. <br> When we add an Resistor with let’s say 1000 Ohm and our source provides 5V like every USB plug, a current of 0.001 Ampere should flow (1mA). The formula used for this comes from Ohm's law I=U/R as you can see this simple formula is quite easy to use and will appear quite often from now on. <br>
+That to be said let’s think about that law quickly, everything including wires have a certain value for resistance. With a shorted wire from voltage source to ground we usually can expect almost infinite amount of energy to flow (wire resistance really low - close to 0) dependend of outputcapability of the source. <br> When we add an resistor with let’s say 1000 ohm and our source provides 5V like every USB plug, a current of 0.001 ampere should flow (1mA). The formula used for this comes from Ohm's law I=U/R as you can see this simple formula is quite easy to use and will appear quite often from now on. <br>
 I want to add a short reminder on how to calculate resistance. Resistors in series can be added together. For parallel resistors it’s a little different, ***************YxYxasdadfsv***
 </p>
 
@@ -67,7 +68,7 @@ I want to add a short reminder on how to calculate resistance. Resistors in seri
 #### ***Electronic components:***
 Only some important parts are listed for this project.
 - **Resistor:** A resistor is a passive electrical component that implements electrical resistance as a circuit element. In electronic circuits, resistors are used to reduce current flow, adjust signal levels, to divide voltages and many other uses. <br>
-The resistance value of the part is given in Ohm. <br>
+The resistance value of the part is given in ohm. <br>
 *Example:*  Limiting the amount of current flowing through LED's or Pulling Wires to a certain level while not shorting the circuit. For example, if something needs a signal default High on the input it can be realized with a Pull-up resistor to the supply voltage. This prevent a short circuit if the pin is switched low.
 - **Transistor:** The electronic equivalent of a switch. With two main categories, MOSFET YYYYYYYYYYYYYY and Bipolar YYYYYYYY. Both of them comes with N- and P-doped variants. The range of application is wide. They can be used as amplifier or simply as switches. For our purpose only the use of as switch (in saturation) is relevant. <br>
 *Example:* Using an Npn bipolar transistor we could switch High currents directly from the source. Without risk to damage a Pin of the microcontroller due to overload.
@@ -84,7 +85,7 @@ The resistance value of the part is given in Ohm. <br>
 
 The DS3231 is a low-cost, extremely accurate I²C real-time clock (RTC) with an integrated temperature-compensated crystal oscillator. The device incorporates a batteryslott. When running this Module on active supply voltage and a battery, it is advised to remove either Resistor or the Diode itself or cut the wire inbetween them. Recharging a non-rechargeable battery is dangerous. It should be avoided at all costs. <br>
 
-The Output Pins of the module are CMOS Open-Drain, so we need to add a Pull-up resistor to pull it on an active HIGH level to our microcontroller to notice it. In our case this would be the **SQW** pin. <br>
+The Output Pins of the module are CMOS Open-Drain, so we need to add a Pull-up resistor to pull it on an active HIGH level for our microcontroller to notice it. In our case this would be the **SQW** pin. <br>
 
 This would be true for our serial communication pins too (**SDA**, **SCL**) usually this is already implemented with the intern pullup's of the microcontroller.
 
@@ -121,7 +122,14 @@ We can now use this Gate to create a flip flop. This is a special circuit design
 
 #### DF-mini-player
 <p>
- text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
+This module is able to drive an analoge speaker. It needs to be supplied with 3.2 - 5 Volts.
+The file system supports up to 32GB on the microSD card. It can be controlled either by buttons on the hardware side or with commands through software. <br>
+
+![DFPlayer mini pinout](./docs/dfplayer1.png)
+
+![DFPlayer specs](./docs/dfplayer2.png)
+
+
 </p>
 
 
@@ -133,11 +141,11 @@ We can now use this Gate to create a flip flop. This is a special circuit design
 Raspberry Pi Foundation entrance in the world of microcontrollers. The company itself is well known for its single board computers. This much smaller module comes with a fairly good price. The difference between the bigger RaspberryPi's is that not supposed to be a whole computer. Therefore it comes with less computing power and programmable memory space and probably more important no Operating system. That to be said you program the function of the module on your own. It is also suitable for low power applications because it does not need that much power.
 <br>
 The technical aspects can be found in the Datasheet linked below:
-The board itself is powered by a MicroUSB connection this refers also as VBUS Pin and need to be 5V or it can be powered by or directly at the VSYS Pin in the range of 1.8-5.5 V. It is important to strictly following the datasheet here to avoid damage to our controller. <br>
+The board itself is powered by a MicroUSB connection this refers also as VBUS Pin and need to be 5V. Powering directly at VSYS Pin in the range of 1.8-5.5 V is also possible. It is important to strictly following the datasheet here to avoid damage to our controller. <br>
 The Pico is powered by the RP-2040 Chip sitting in the middle of the board, avoid touching the Pins of the Chip itself directly because electrostatic charge from your hands can damage it. To control the processor microPython or with a little effort C++ can be used, more to that later.
 <br>
 We can now program the Pin’s of the module to switch HIGH/LOW or read analog Signals (Voltage levels). This offers a wide range of possible applications which can be easy realized, we just need to be aware of some basic concepts to not risk damaging the module itself. Although it is usually quite resistant to little accidents in a certain extent. <br>
-The Output capability of the Pico is limited, for switching higher loads its important to not exceed the parts limits. Measure negative voltages is neither a good idea because it can damage the part. <br>
+The Output capability of the Pico is limited (~20mA), for switching higher loads its important to not exceed the parts limits. For switching higher currents use rellais or transistors. Measure or apply negative voltages is neither a good idea because it can damage the part too. This should not be achievable without a propper voltage supply, except for accidentally mistake GND and VCC. <br>
 For more information look at the Datasheet provided below, but more Important is the Pinout scematic, as it is shown there the number and type of our Pins.
 </p>
 <br>
@@ -150,8 +158,8 @@ For more information look at the Datasheet provided below, but more Important is
 ### microPython
 ---
 
-MicroPython is a efficient implementation of the Python 3 programming language and is optimised to run on microcontrollers and in constrained environments, like our Pico. It includes a small subset of the Python standard librarys, but its more than sufficient to the needs of this project. <br>
-We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of electronic projects.
+MicroPython is a efficient implementation of the Python 3 programming language it is optimised to run on microcontrollers, like our Pico. It includes a small subset of the Python standard librarys, but its more than sufficient to the needs of this project. <br>
+We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of basic electronic projects.
 
 <br>
 
@@ -227,9 +235,25 @@ When you save the code to your Pico this time give the file the name **main.py**
 ---
 ## Lection 2: Flip flop & Input/Output
 ---
+A Flip-flop is a bistable circuit saving a electronic state. It's fundamental circuit to store digital information. Even in games like Minecraft you can build such a thing pretty quickly. <br>
+In the game you can build an inverter out of a redstone wire and a redstone torch attached to the block. When we connect two inverters this will form a Bistable state. Switching one of the buttons will cause the system to flip side and will stay that way untill the right button is pressed.
 
+![Minecraft FF](./docs/)
+
+In real world application the way this works is basically the same. We connect two inverters together, which eventually forms our Flip-flop. As an inverter we can use our NAND Gates. There is one more important thing, a forbidden state exists when both inputs are activated at the same time. This state is not really dangerous but you simply cant really tell how the circuit is gonna react to it, loosing correct state of the machine could cause problems.
+<br>
+Now we gona build a small circuit to test these functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire and hold it onto the ground rail.
+
+![Circuit FF](./docs/)
 
 ---
 ## Lection 3: DFPlayer-mini
 ---
+For more detailed information on the module visit [here](https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299). I already provided some information about it at the the Basics part, it is not mandatory to know all the details. <br>
 
+Now we gona test the function of the DFPlayer module. Build your circuit on the breadboard according the scematic. 
+
+![Circuit DFPlayer](./docs/)
+
+Then you have to upload the 00.mp3 file from the mp3 folder to the SD-card. The naming of the file is important to work with the selected library for this module. <br>
+Load the dfplayer_example.py onto the Pico. When you look at the code you will notice that we import something, in this case this is not part of the standard library so we will need to deploy that code too on the Pico. Again simply save it with the correct name dfplayermini.py onto the controller.
