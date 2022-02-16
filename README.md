@@ -6,13 +6,15 @@
 ---
 
 <p>
-This is a talking plant project requiring a RaspberryPi Pico a DF-mini player module as well as a DS-3231 RTC-module (Real time clock).
- The main purpose of the project is a beginner friendly diy experience.
- Using Python as a quite easy to learn language and very simple basic modules and circuits.
- It should give a small insight into the world of microcontrollers and what they are capable of.
- <br>
- I provided a short BASICS summary, to explain briefly basic functionalities in Python and electronics.
- </p>
+
+This is a talking plant project requiring a RaspberryPi Pico a DFPlayer-mini module as well as a DS-3231 RTC-module (Real time clock).
+The main purpose of the project is a beginner friendly diy experience.
+Using Python as a quite easy to learn language and very simple basic modules and circuits.
+It should give a small insight into the world of microcontrollers and what they are capable of.
+<br>
+I provided a short BASICS summary, to explain briefly basic functionalities in Python and electronics.
+
+</p>
 
 ---
 
@@ -135,26 +137,99 @@ The board itself is powered by a MicroUSB connection this refers also as VBUS Pi
 The Pico is powered by the RP-2040 Chip sitting in the middle of the board, avoid touching the Pins of the Chip itself directly because electrostatic charge from your hands can damage it. To control the processor microPython or with a little effort C++ can be used, more to that later.
 <br>
 We can now program the Pin’s of the module to switch HIGH/LOW or read analog Signals (Voltage levels). This offers a wide range of possible applications which can be easy realized, we just need to be aware of some basic concepts to not risk damaging the module itself. Although it is usually quite resistant to little accidents in a certain extent. <br>
-The Output capability of the Pico is limited, for switching higher loads its important to not exceed the parts limits. Measure negative voltages is neither a good idea because it can damage the part.
+The Output capability of the Pico is limited, for switching higher loads its important to not exceed the parts limits. Measure negative voltages is neither a good idea because it can damage the part. <br>
+For more information look at the Datasheet provided below, but more Important is the Pinout scematic, as it is shown there the number and type of our Pins.
 </p>
-
 <br>
 
-[Pinout source](http://land-boards.com/blwiki/images/thumb/5/56/Raspberry-Pi-Pico-Pinout.jpg/730px-Raspberry-Pi-Pico-Pinout.jpg) <br>
+[Pinout source](http://land-boards.com/blwiki/images/thumb/5/56/Raspberry-Pi-Pico-Pinout.jpg/730px-Raspberry-Pi-Pico-Pinout.jpg)
+
 [Datasheet source](https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf)
-
-<br>
 
 ---
 ### microPython
 ---
 
 MicroPython is a efficient implementation of the Python 3 programming language and is optimised to run on microcontrollers and in constrained environments, like our Pico. It includes a small subset of the Python standard librarys, but its more than sufficient to the needs of this project. <br>
-We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of electronic projects. <br>
+We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of electronic projects.
+
 <br>
 
 latest version of [Thonny](https://thonny.org/)
 <br>
 
+---
+## Lection 1: Installation & Blink sketch
+---
 
+<p>
+
+If you have not already downloaded & installed [Thonny](https://thonny.org/) you should do this now. <br>
+After the installation is complete click on **Run - select interpreter** like shown below.
+![Thonny select interpreter](./docs/thonny1.PNG)
+
+Now select **MicroPython (Raspberry Pi Pico)**
+![micropython Pico](./docs/thonny2.PNG)
+
+
+Now we can start to write the actual programm. Starting with a simple sketch to show basic functionality. Make sure your Pico is connected for the next steps. It should be select automatically the right port.
+<pre><code>
+#Hello World!
+import time
+
+ledpin = Pin(25, Pin.OUT) # here we declare the variable ledpin as Pin 25 in output mode
+
+print("Hello World!") # this will print "Hello World!" to the console in our IDE, the message will be sent by the Pico over USB-serial interface
+
+ledpin.value(1) # now we output a HIGH signal on the defined ledpin
+time.sleep(1) # wait for 1 second, the controller wont do ANYTHING while this period of time
+time.sleep_ms(1) # wait for 1 millisecond
+
+ledpin.value(0) # pull ledpin LOW
+</code></pre>
+
+For more details on [time library](https://docs.micropython.org/en/latest/library/time.html) click the link.
+
+Now click on save, there should now apper a window asking you where u want to save. Hit the button to save on the Pico like shown below. **Important** use the file ending .py when saving your programm!
+
+![save on Pico](./docs/thonny3.PNG)
+
+When you hit the **Run** button the programm should start to execute on the Pico, if you want to stop the code hit the red **STOP**.
+
+![Run sketch](./docs/thonny4.PNG)
+<br>
+
+A better way to implement something similar is shown in blink.py from the code folder. Load it or copy the code manually into your ThonnyIDE.
+
+<pre><code>
+#import existing code
+from machine import Pin, Timer
+
+#declare pins & variables
+led = Pin(25, Pin.OUT)  #initialize pin 25 and set it to output
+LED_state = True        #declare a boolean variable
+tim = Timer()           #initialize a timer module
+
+#define a function to execute code at a certain callback event
+def tick(timer):
+    global led, LED_state       #get access to the global variables in function space
+    LED_state = not LED_state   #inverting bool value
+    led.value(LED_state)        #output the new state to our pin
+
+#use Timer object to execute our callback function at 1Hz (1 per second)
+tim.init(freq=1, mode=Timer.PERIODIC, callback=tick)
+</code></pre>
+
+When you save the code to your Pico this time give the file the name **main.py** , now the Pico will execute the code everytime it is powered on automatically. You should still be able to controll it by the **STOP** and **RUN** button while pluged to your PC.
+
+</p>
+
+---
+## Lection 2: Flip flop & Input/Output
+---
+
+
+---
+## Lection 3: DFPlayer-mini
+---
 
