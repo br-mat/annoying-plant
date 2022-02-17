@@ -146,7 +146,12 @@ The file system supports up to 32GB on the microSD card. It can be controlled ei
 ![DFPlayer mini pinout](./docs/dfplayer1.png)
 
 ![DFPlayer specs](./docs/dfplayer2.png)
+  
+1. Main directory
+Up to 3000 wav or mp3 files can be stored in the main directory of the SD card. They must be saved as 0001.mp3 (or 0001.wav), 0002.mp3 …. 3000.mp3. The files are copied in the exact order of their names. Since they are there by creation time.
 
+2. Default directories
+You can create 99 standard directories, which follow the scheme 01, 02, 03 .... 99 must be named. In each of these folders, 255 files can be addressed directly using commands.
 
 </p>
 
