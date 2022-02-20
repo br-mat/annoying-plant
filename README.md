@@ -120,7 +120,9 @@ The picture shows our module, with the diode and resistor mentioned above marked
 
 <p>
 
-NAND stands for **not** **and**, what this mean can be shown in the truth table of this gate. Basically the output is always HIGH except when both inputs are HIGH. In the picture below A and B are the inputs while C is the output. The output also requires an pullup resistor to pull the signal level to HIGH as its cmos-open-drain. <br>
+The signal levels 1 and 0 are ofthen called HIGH or LOW at some point, all of these are refering to the same levels (Supplay Voltage and GND). <br>
+
+NAND stands for **not** **and**, what this mean can be shown in the truth table of this gate. Basically the output is always HIGH except when both inputs are HIGH. In the picture below A and B are the inputs while C is the output. The output also requires an pullup resistor to pull the signal level to HIGH as its cmos-open-drain nature. <br>
 
 ![battery security](./docs/truthtable.PNG)
 
@@ -203,7 +205,8 @@ If you have not already downloaded & installed [Thonny](https://thonny.org/) you
 After the installation is complete click on **Run - select interpreter** like shown below.
 ![Thonny select interpreter](./docs/thonny1.png)
 
-Now select **MicroPython (Raspberry Pi Pico)**
+Now select **MicroPython (Raspberry Pi Pico)** <br>
+(In Case you seting up your Pico for the first time you need to hit the **'install or update firmware'** button on the lower right of following window.)
 ![micropython Pico](./docs/thonny2.png)
 
 
@@ -261,18 +264,38 @@ When you save the code to your Pico this time give the file the name **main.py**
 </p>
 
 ---
-## Lection 2: Flip flop & Input/Output
+## Lection 2: Flip flop
 ---
+
+<p>
+
+**Theory:** <br>
 A Flip-flop is a bistable circuit saving a electronic state. It's fundamental circuit to store digital information. Even in games like Minecraft you can build such a thing pretty quickly. <br>
 In the game you can build an inverter out of a redstone wire and a redstone torch attached to the block. When we connect two inverters this will form a Bistable state. Switching one of the buttons will cause the system to flip side and will stay that way untill the other button is pressed. <br>
 
 ![Minecraft FF](./docs/mc_ff.png)
 
-In real world application the way this works is basically the same. We connect two inverters together, which eventually forms our Flip-flop. As an inverter we can use our NAND Gates. There is one more important thing, a forbidden state exists when both inputs are activated at the same time. This state is not really dangerous in our case but you simply cant really tell how the circuit is gonna react to it, loosing correct state of the machine could cause problems. <br>
+In real world application the way this works is basically the same. This time wie connect two NAND-Gates together, which eventually forms our Flip-flop. There is one more important thing, a forbidden state exists when both inputs are activated at the same time. This state is not really dangerous in our case but you simply cant really tell how the circuit is gonna react to it, loosing correct state of the machine could cause problems. <br>
 
-Now we gona build a small circuit to test this functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire and hold it onto the ground rail. <br>
+In the picture below the raw scematic of a real world Flip-flop is shown. The basic element of the circuit are 2 NAND-Gates, which we can see marked in red. <br>
 
-![Circuit FF](./docs/)
+![Real FF](./docs/realFF.jpg)
+
+**Circuit:** <br>
+Now we gona build a small circuit to test this functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire, either pink or violet and hold it onto the ground rail (black). <br> This could theoretically also achieved with our Pico. When we connect those two wires to output pins and set them to HIGH state. As soon as we pull the correct one LOW the FF should switch and the other LED should light up. <br>
+
+The Resistors to protect the LED should be around 300 Ohm, they can be calculated according the formula or with online [tools](https://www.elektronik-kompendium.de/sites/bau/1109111.htm):
+
+<pre><code>
+protection Resistor = Voltage drop over R / I on LED
+#Voltage drop over R can be obtained by subtracting forward drop Voltage of the Diode itself from source Voltage 
+</code></pre>
+
+The other two Resistors are 100kOhm to pull the signal level of the Nand output HIGH. This need to be done because of the open Drain nature of the NAND IC (Integrated Circuit). <br>
+
+![Circuit FF](./docs/lec2.png)
+
+</p>
 
 ---
 ## Lection 3: DFPlayer-mini
