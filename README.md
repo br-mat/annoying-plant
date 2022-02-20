@@ -18,6 +18,18 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 
 </p>
 
+
+---
+## Content
+---
+
+- Parts
+- Main Project
+- Basic
+-
+-
+
+
 ---
 
 ## Parts
@@ -36,6 +48,11 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
     * Resistors YYYYYYYYYYY
     * LED's (optional)
 
+
+---
+## Main project
+---
+TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT 
 
 ---
 ## Basics
