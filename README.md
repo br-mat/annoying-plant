@@ -14,7 +14,8 @@ The main purpose of the project is a beginner friendly DIY experience.
 Using Python as a quite easy language to learn and very simple basic modules and circuits.
 It should give a small insight into the world of microcontrollers and what they are capable of.
 <br>
-I provided a short BASICS summary, to explain briefly basic functionalities in Python and electronics.
+
+I provided a short BASICS summary, to explain briefly basic functionalities in Python and electronics. If you not really experienced i give a quick introduction into the most important things for the main project.
 
 </p>
 
@@ -23,11 +24,17 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 ## Content
 ---
 
-- Parts
-- Main Project
-- Basic
--
--
+- [Parts](#parts)
+- [Main Project](#main-project)
+- [Basic](#basic)
+    * [Safety](#safety)
+    * [Electronic Basics](#electronic-basics)
+    * [Modules & ICs](#modules--ics)
+    * [RaspberryPi Pico](#raspberrypi-pico)
+
+- [Lection 1](#lection-1-installation--blink-sketch)
+- [Lection 2](#lection-2-flip-flop)
+- [Lection 3](#lection-3-dfplayer-mini)
 
 
 ---
@@ -52,7 +59,21 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 ---
 ## Main project
 ---
-TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT 
+
+Main sketch:
+![annoying plant circuit](./docs/main_v1.png)
+
+
+<br>
+TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
+
+<pre><code>
+code follow soon!
+
+#bla bla 
+#bla 
+#blabla
+</code></pre>
 
 ---
 ## Basics
@@ -186,12 +207,19 @@ You can create 99 standard directories, which follow the scheme 01, 02, 03 .... 
 
 Raspberry Pi Foundation entrance in the world of microcontrollers. The company itself is well known for its single board computers. This much smaller module comes with a fairly good price. The difference between the bigger RaspberryPi's is that not supposed to be a whole computer. Therefore it comes with less computing power and programmable memory space and probably more important no Operating system. That to be said you program the function of the module on your own. It is also suitable for low power applications because it does not need that much power.
 <br>
+
 The technical aspects can be found in the Datasheet linked below:
 The board itself is powered by a MicroUSB connection this refers also as VBUS Pin and need to be 5V. Powering directly at VSYS Pin in the range of 1.8-5.5 V is also possible. It is important to strictly following the datasheet here to avoid damage to our controller. <br>
+
 The Pico is powered by the RP-2040 Chip sitting in the middle of the board, avoid touching the Pins of the Chip itself directly because electrostatic charge from your hands can damage it. To control the processor microPython or with a little effort C++ can be used, more to that later.
 <br>
+
 We can now program the Pin’s of the module to switch HIGH/LOW or read analog Signals (Voltage levels). This offers a wide range of possible applications which can be easy realized, we just need to be aware of some basic concepts to not risk damaging the module itself. Although it is usually quite resistant to little accidents in a certain extent. <br>
+
 The Output capability of the Pico is limited (~20mA), for switching higher loads its important to not exceed the parts limits. For switching higher currents use rellais or transistors. Measure or apply negative voltages is neither a good idea because it can damage the part too. This should not be achievable without a propper voltage supply, except for accidentally mistake GND and VCC. <br>
+
+Another possible mistake could be applying 5V to the General purpose Input/Output pins of the Pico. The chip is not 5V tolerant! Use a level-shifter to convert the voltage levels down or a [voltage devider](https://en.wikipedia.org/wiki/Voltage_divider) , simple circuit made out of two resistors. <br>
+
 For more information look at the Datasheet provided below, but more Important is the Pinout scematic, as it is shown there the number and type of our Pins.
 
 </p>
@@ -303,14 +331,26 @@ In the picture below the raw scematic of a real world Flip-flop is shown. The ba
 **Circuit:** <br>
 Now we gona build a small circuit to test this functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire, either pink or violet and hold it onto the ground rail (black). <br> This could theoretically also achieved with our Pico. When we connect those two wires to output pins and set them to HIGH state. As soon as we pull the correct one LOW the FF should switch and the other LED should light up. <br>
 
-The Resistors to protect the LED should be around 300 Ohm, they can be calculated according the formula or with online [tools](https://www.elektronik-kompendium.de/sites/bau/1109111.htm):
+**Important** If you play around and try to connect the circuit with the Pico keep in mind using the 3.3V Output. Otherwise you might damage your controller when applying 5V to its input pins. Therefor lookup the pinout diagram of the pico. Either from internet search or take the link from the above section on of the Pico. (It's the 5th pin on the same side as the VBUS Pin, VBUS is 1st)
+
+<br>
+
+**Tipps&Info:**
+
+1. **Resistor values:** The Resistors to protect the LED should be around 300 Ohm, they can be calculated according the formula or with online [tools](https://www.elektronik-kompendium.de/sites/bau/1109111.htm).
+<br> The other two Resistors are 100kOhm to pull the signal level of the Nand output HIGH. This need to be done because of the open Drain nature of the NAND IC (Integrated Circuit). <br>
 
 <pre><code>
 protection Resistor = Voltage drop over R / I on LED
 #Voltage drop over R can be obtained by subtracting forward drop Voltage of the Diode itself from source Voltage 
 </code></pre>
 
-The other two Resistors are 100kOhm to pull the signal level of the Nand output HIGH. This need to be done because of the open Drain nature of the NAND IC (Integrated Circuit). <br>
+2. **Diode orientation:** Orientation matters, because when you put them in wrong direction they will simply stop any flow of current try to pass through them. The Anode (+) side needs to be at the side with the higher potential (Voltage) and the Kathode on the GND side. Usually the **longer foot** is the Anode. The position of the protection Resistor doesn't matter.
+
+3. **Breadboard:** On the breadboard the side rails marked with red and blue stripes are connected on the horizontal axis. This color sceme is used as red for positive Voltage level (3.3V in this case) and blue as ground (GND) potential. <br>
+The inside of the breadboard is connected vertical a-e and f-j. You can see this in the green highlighted holes which forming a path in vertical direction for every connection. <br>
+
+4. **IC Chip:** On the IC (CD40107BE) there is a dot. This dot usually referes to pin 1 on the Chip. In the scematic pin number 1 is on the bottom left side. Directly above you see the red VCC (source Voltage) wire and in the bottom right with the black wire sits the GND connection. More details in the [datasheet](https://html.alldatasheet.com/html-pdf/26840/TI/CD40107/73/3/CD40107.html), on page 3 you can find the pinout sceme.
 
 ![Circuit FF](./docs/lec2.png)
 
@@ -323,7 +363,7 @@ For more detailed information on the module visit [here](https://wiki.dfrobot.co
 
 Now we gona test the function of the DFPlayer module. Build your circuit on the breadboard according the scematic. 
 
-![Circuit DFPlayer](./docs/)
+![Circuit DFPlayer](./docs/lec3.png)
 
 Then you have to upload the 0001.mp3 file from the mp3 folder to the SD-card. The naming of the file is important to work with the selected library for this module. <br>
 Load the dfplayer_example.py onto the Pico. When you look at the code you will notice that we import something, in this case this is not part of the standard library so we will need to deploy that code too on the Pico. Again simply save it with the correct name dfplayermini.py onto the controller. <br>
