@@ -60,12 +60,18 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 ## Main project
 ---
 
+<p>
+
 Main sketch:
 ![annoying plant circuit](./docs/main_v1.png)
 
 
 <br>
-TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
+Section here will follow soon! <br>
+Text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text <br>
+
+ text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text <br>
+
 
 <pre><code>
 code follow soon!
@@ -74,6 +80,10 @@ code follow soon!
 #bla 
 #blabla
 </code></pre>
+
+</p>
+
+<br>
 
 ---
 ## Basics
@@ -226,7 +236,7 @@ For more information look at the Datasheet provided below, but more Important is
 
 <br>
 
-[Pinout source](http://land-boards.com/blwiki/images/thumb/5/56/Raspberry-Pi-Pico-Pinout.jpg/730px-Raspberry-Pi-Pico-Pinout.jpg)
+[Pinout RaspberryPi Pico](./docs/pinoutpico.png)
 
 [Datasheet source](https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf)
 
@@ -235,16 +245,19 @@ For more information look at the Datasheet provided below, but more Important is
 ---
 
 MicroPython is a efficient implementation of the Python 3 programming language it is optimised to run on microcontrollers, like our Pico. It includes a small subset of the Python standard librarys, but its more than sufficient to the needs of this project. <br>
-We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of basic electronic projects.
-
-<br>
+We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of basic electronic projects. <br>
+In order to not further stretch this tutorial you can find tons of good content online such as [this](https://www.programiz.com/python-programming/first-program) explaining the basics of programming in Python. If you not that familiar with programming simply take the codes provided, you may play around with it and learn by doing. <br>
 
 latest version of [Thonny](https://thonny.org/)
+
 <br>
+
 
 ---
 ## Lection 1: Installation & Blink sketch
 ---
+
+A nice and simple tutorial for the following can also be found [here](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/0), every step is well written and illustrated. Take a look at it if something went wrong this might help out. <br>
 
 <p>
 
@@ -279,13 +292,14 @@ Now click on save, there should now apper a window asking you where u want to sa
 
 ![save on Pico](./docs/thonny3.png)
 
-When you hit the **Run** button the programm should start to execute on the Pico, if you want to stop the code hit the red **STOP**.
-
 ![Run sketch](./docs/thonny4.png)
+
+When you hit the **Run** button the programm should start to execute on the Pico, if you want to stop the code hit the red **STOP**. The Led should blink from now until you stop the code from executing. But the code wont execute as soon as the board is powered on in order to achieve that see bellow. <br>
 
 <br>
 
-A better way to implement something similar is shown in blink.py from the code folder. Load it or copy the code manually into your ThonnyIDE.
+**Additional:** <br>
+A better and maybee more 'pythonic' way to implement something similar is shown in blink.py from the code folder. Load it or copy the code manually into your ThonnyIDE.
 
 <pre><code>
 #import existing code
@@ -306,9 +320,13 @@ def tick(timer):
 tim.init(freq=1, mode=Timer.PERIODIC, callback=tick)
 </code></pre>
 
-When you save the code to your Pico this time give the file the name **main.py** , now the Pico will execute the code everytime it is powered on automatically. You should still be able to controll it by the **STOP** and **RUN** button while pluged to your PC.
+When you save the code to your Pico this time give the file the name **main.py** , now the Pico will execute the code everytime it is powered on automatically. You should still be able to controll it by the **STOP** and **RUN** button while pluged to your PC. <br>
+
+
 
 </p>
+
+<br>
 
 ---
 ## Lection 2: Flip flop
@@ -317,7 +335,7 @@ When you save the code to your Pico this time give the file the name **main.py**
 <p>
 
 **Theory:** <br>
-A Flip-flop is a bistable circuit saving a electronic state. It's fundamental circuit to store digital information. Even in games like Minecraft you can build such a thing pretty quickly. <br>
+A Flip-flop is a bistable circuit saving a electronic state. It's fundamental circuit to store digital information. In games like Minecraft you can build such a thing pretty quickly. <br>
 In the game you can build an inverter out of a redstone wire and a redstone torch attached to the block. When we connect two inverters this will form a Bistable state. Switching one of the buttons will cause the system to flip side and will stay that way untill the other button is pressed. <br>
 
 ![Minecraft FF](./docs/mc_ff.png)
@@ -331,8 +349,6 @@ In the picture below the raw scematic of a real world Flip-flop is shown. The ba
 **Circuit:** <br>
 Now we gona build a small circuit to test this functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire, either pink or violet and hold it onto the ground rail (black). <br> This could theoretically also achieved with our Pico. When we connect those two wires to output pins and set them to HIGH state. As soon as we pull the correct one LOW the FF should switch and the other LED should light up. <br>
 
-**Important** If you play around and try to connect the circuit with the Pico keep in mind using the 3.3V Output. Otherwise you might damage your controller when applying 5V to its input pins. Therefor lookup the pinout diagram of the pico. Either from internet search or take the link from the above section on of the Pico. (It's the 5th pin on the same side as the VBUS Pin, VBUS is 1st)
-
 <br>
 
 **Tipps&Info:**
@@ -345,7 +361,7 @@ protection Resistor = Voltage drop over R / I on LED
 #Voltage drop over R can be obtained by subtracting forward drop Voltage of the Diode itself from source Voltage 
 </code></pre>
 
-2. **Diode orientation:** Orientation matters, because when you put them in wrong direction they will simply stop any flow of current try to pass through them. The Anode (+) side needs to be at the side with the higher potential (Voltage) and the Kathode on the GND side. Usually the **longer foot** is the Anode. The position of the protection Resistor doesn't matter.
+2. **LED orientation:** Orientation matters, because when you put them in wrong direction they will simply stop any flow of current try to pass through them. The Anode (+) side needs to be at the side with the higher potential (Voltage) and the Kathode on the GND side. Usually the **longer foot** is the Anode. The position of the protection Resistor doesn't matter.
 
 3. **Breadboard:** On the breadboard the side rails marked with red and blue stripes are connected on the horizontal axis. This color sceme is used as red for positive Voltage level (3.3V in this case) and blue as ground (GND) potential. <br>
 The inside of the breadboard is connected vertical a-e and f-j. You can see this in the green highlighted holes which forming a path in vertical direction for every connection. <br>
@@ -354,14 +370,54 @@ The inside of the breadboard is connected vertical a-e and f-j. You can see this
 
 ![Circuit FF](./docs/lec2.png)
 
+<br>
+
+**Important** If you play around and try to connect the circuit with the Pico keep in mind using the 3.3V Output. Otherwise you might damage your controller when applying 5V to its input pins. Therefor lookup the [pinout](./docs/pinoutpico.png) diagram of the pico. Either from internet search or take the link from the above section on of the Pico. (It's the 5th pin on the same side as the VBUS Pin, VBUS is 1st)
+
+<br>
+<pre><code>
+#code may look like
+from machine import Pin
+import time
+
+#declare pins & variables
+state=True
+s = Pin(20, Pin.OUT)  #initialize pin 20 and set it on output
+r = Pin(21, Pin.OUT)  #initialize pin 21 and set it on output
+led = Pin(25, Pin.OUT)
+
+s.value(1)
+r.value(1)
+led.value(0) #output low (GND)
+
+#s while loop will loop as long as the condition (True in this cause) will get false (wont happen in this case)
+while True:
+    s.value(not state)
+    r.value(state)
+    time.sleep_ms(1) #sleeps a millisecond
+    s.value(1)
+    r.value(1)
+    #this is an if statement simply it triggers the if-part when state is true or hops in else-part otherwise
+    if state:
+        state=False #if true set false
+    else:
+        state=True #else set true
+    time.sleep(5) #sleep 5 sec
+    #hopps to the top of the while loop
+
+</code></pre>
+
 </p>
+
+<br>
 
 ---
 ## Lection 3: DFPlayer-mini
 ---
 For more detailed information on the module visit [here](https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299). I already provided some information about it at the the Basics part, it is not mandatory to know all the details. <br>
 
-Now we gona test the function of the DFPlayer module. Build your circuit on the breadboard according the scematic. 
+Now we gona test the function of the DFPlayer module. Build your circuit on the breadboard according the scematic. <br>
+For your information the module in red at the top of the sketch is a level shifter module. As mentioned above if we apply 5V to the GPIO (general purpose input output) Pins of the Pico we risk damaging the part. This is a problem because we connect the DFPlayer to 5V VCC, it will output HIGH signals at 5V level. With this module we apply the Higher 5V voltage level (red wire) at **'HV'** and 3.3V (orange wire) to **'LV'**. Then module will automatically shift any binary (0 or 1) to its coresponding sides voltage level. <br>
 
 ![Circuit DFPlayer](./docs/lec3.png)
 
@@ -376,4 +432,4 @@ Changing the code is pretty simple i'll provide an example for each function of 
 code here follow soon!
 </code></pre>
 
-It is also possible to use this device manually. Take a loose wire connected to GND and tipp shortly on the **IO_2** Pin to select the next track. This will play the whole song. When holding these pins like its shown above in the Basic section, we can adjust the Volume. Therefor look at the Table there should be given a short description in the "Notes" of each pin how to controll it manually.
+It is also possible to use this device manually. Take a loose wire (grey in the sketch) connected to GND and tipp shortly on the **IO_2** Pin to select the next track. The corresponding Pin you can find [above](#df-mini-player). This will play the whole song. When holding this pin we can adjust the Volume, therefor look up the functions from the table in the "Notes". When working with the loose wire avoid connecting it directly to VCC, this will short the circuit. To avoid this problem you might add a resistor of any value above 1k to this wire in series.
