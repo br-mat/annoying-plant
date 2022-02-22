@@ -35,6 +35,7 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 - [Lection 1](#lection-1-installation--blink-sketch)
 - [Lection 2](#lection-2-flip-flop)
 - [Lection 3](#lection-3-dfplayer-mini)
+- [Lection 4](#lection-4-analog-input)
 
 
 ---
@@ -257,6 +258,7 @@ latest version of [Thonny](https://thonny.org/)
 ## Lection 1: Installation & Blink sketch
 ---
 
+### Lection 1.1: Installation
 A nice and simple tutorial for the following can also be found [here](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/0), every step is well written and illustrated. Take a look at it if something went wrong this might help out. <br>
 
 <p>
@@ -269,6 +271,8 @@ Now select **MicroPython (Raspberry Pi Pico)** <br>
 (In Case you seting up your Pico for the first time you need to hit the **'install or update firmware'** button on the lower right of following window.)
 ![micropython Pico](./docs/thonny2.png)
 
+---
+### Lection 1.2: Blink sketch
 
 Now we can start to write the actual programm. Starting with a simple sketch to show basic functionality. Make sure your Pico is connected for the next steps. It should be select automatically the right port.
 <pre><code>
@@ -321,7 +325,6 @@ tim.init(freq=1, mode=Timer.PERIODIC, callback=tick)
 </code></pre>
 
 When you save the code to your Pico this time give the file the name **main.py** , now the Pico will execute the code everytime it is powered on automatically. You should still be able to controll it by the **STOP** and **RUN** button while pluged to your PC. <br>
-
 
 
 </p>
@@ -432,4 +435,38 @@ Changing the code is pretty simple i'll provide an example for each function of 
 code here follow soon!
 </code></pre>
 
-It is also possible to use this device manually. Take a loose wire (grey in the sketch) connected to GND and tipp shortly on the **IO_2** Pin to select the next track. The corresponding Pin you can find [above](#df-mini-player). This will play the whole song. When holding this pin we can adjust the Volume, therefor look up the functions from the table in the "Notes". When working with the loose wire avoid connecting it directly to VCC, this will short the circuit. To avoid this problem you might add a resistor of any value above 1k to this wire in series.
+It is also possible to use this device manually. Take a loose wire (grey in the sketch) connected to GND and tipp shortly on the **IO_2** Pin to select the next track. The corresponding Pin you can find [above](#df-mini-player). This will play the whole song. When holding this pin we can adjust the Volume, therefor look up the functions from the table in the "Notes". When working with the loose wire avoid connecting it directly to VCC, this will short the circuit. To avoid this problem you might add a resistor of any value above 1k to this wire in series. <br>
+
+---
+## Lection 4: Analog Input
+---
+
+<p>
+Now were gona prepare our capacitive moisture sensor. We need to calibrate the sensors threshold values, to estimate if the plant pot is dry or wet.
+Therefore we will need a cup of water, the plant pot could also help as well. <br>
+
+Build up the circuit according to the following: <br>
+![moisture sensor](./docs/calibrate.png)
+
+<br>
+Now upload the code to the Pico:
+
+<br>
+
+<pre><code>
+import machine
+import time
+ 
+analog_value = machine.ADC(28)
+ 
+while True:
+    reading = analog_value.read_u16()     
+    print("ADC: ",reading)
+    timee.sleep(1)
+</code></pre>
+
+When these steps are completed we can start with our calibration. Don't forgett to hit the run button as soon as you have uploaded this code. First take a measurement of the sensor while in air. Writte down this value somewhere as we need it later. Measurements higher than this value are neglectable so they mark the upper boarder of our sensor values. Now hold the sensor into the cup of water, it is important to instert the sensor only up to the white line! The measurements now represent the lower boarder. <br>
+With this two boarder values we defined our measurement range. When you put the sensor into the plant pot we get a feeling on realistic values. <br>
+Later when we try to decide if our plant pot is dry or not we will define a boarder value within the measurement range. When the measurement pass this value we can decide on how to react in the final goal we will, then play a random track to signal the plants needs. <br>
+
+</p>
