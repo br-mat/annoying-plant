@@ -17,6 +17,8 @@ It should give a small insight into the world of microcontrollers and what they 
 
 I provided a short BASICS summary, to explain briefly basic functionalities in Python and electronics. If you not really experienced i give a quick introduction into the most important things for the main project.
 
+![drawing](./docs/draw.png)
+
 </p>
 
 
