@@ -51,9 +51,9 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 - capacitive soil moisture sensor
 - Basic components:
     * IRF4905 P-Mos
-    * 2n2222a NPN
+    * IRFZ44N N-Mos
     * 2x 100nF Capacitor
-    * Resistors YYYYYYYYYYY
+    * Resistors
     * LED's (optional)
 
 
@@ -66,13 +66,18 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 Main sketch:
 ![annoying plant circuit](./docs/main_v1.png)
 
+<br>
+
+Main goal of this project is to realize a speaking plant. The existing code should give a framework to customize according to your needs. As the project was originally oriented towards beginners i try to keep the code easy readable and understandable. The circuit works stable after some testing, nontheless some improvements might follow in future. <br>
 
 <br>
-Section here will follow soon! <br>
-Text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text <br>
 
- text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text <br>
-
+As power supply in this version a 9V block battery or accumulator is used. The circuit is protected by a fuse and a diode agains reversed polarity. An improvement to this would probably be a [P-Mosfet](https://components101.com/articles/design-guide-pmos-mosfet-for-reverse-voltage-polarity-protection). <br>
+The next part is a Buck-converter to regulate voltage down to 5V, it is important to first adjust the convterter to about 5V output bevore soldering it in. Doublecheck the Voltage in order to avoid damaging parts! <br>
+On the right bottom of the sketch sits the Dfplayer module with our SD card. <br>
+Above the buck converter is the level shifter to avoid damage to the RaspberryPi Pico (not 5V tolerant GPIO) all logic signals towards the Pico needs to be leveld down to 3.3V. <br>
+Now we talk about a whole group of parts, which should save some energy in the long run. The Pico is able to cut off its own power supply with a Flip-flop formed by the NAND Gates. It also controlls the RTC and set alarms to flip it on again to wake up the whole system. In the middle we see the CD401007BE IC it holds two NAND Gates. This part works together with the RTC module, at the top of the sketch and the two Mosfet transistors on the right. This group controlls the power of the microcontroller and the dfplayer module, as said saving energy by turning them of while waiting. <br>
+The last thing is a capacitive moisture sensor, it brings us the ability to monitor the plant condition and play sounds when the plant pot seems to be dry. <br>
 
 <pre><code>
 code follow soon!
@@ -119,7 +124,7 @@ U is our voltage, R is the value of our resistance in ohm and I stand for the am
 
 </code></pre>
 
-That to be said let’s think about that law quickly, everything including wires have a certain value for resistance. With a shorted wire from voltage source to ground we usually can expect almost infinite amount of energy to flow (wire resistance really low - close to 0) dependend of outputcapability of the source. <br> When we add an resistor with let’s say 1000 ohm and our source provides 5V like every USB plug, a current of 0.001 ampere should flow (1mA). The formula used for this comes from Ohm's law I=U/R as you can see this simple formula is quite easy to use and will appear quite often from now on. <br>
+That to be said let’s think about that law quickly, everything including wires have a certain value for resistance. With a shorted wire from voltage source to ground we usually can expect almost infinite amount of energy to flow (wire resistance really low - close to 0) dependend of outputcapability of the source. <br> When we add a resistor with let’s say 1000 ohm and our source provides 5V like every USB plug, a current of 0.001 ampere should flow (1mA). The formula used for this comes from Ohm's law I=U/R as you can see this simple formula is quite easy to use and will appear quite often from now on. <br>
 I want to add a short reminder on how to calculate resistance. Resistors in series can be added together. For parallel resistors it’s a little different and more complicated, [see](https://en.wikipedia.org/wiki/Resistor).
 </p>
 
@@ -132,11 +137,11 @@ Only some important parts are listed for this project.
 - [**Resistor:**](https://en.wikipedia.org/wiki/Resistor) A resistor is a passive electrical component that implements electrical resistance as a circuit element. In electronic circuits, resistors are used to reduce current flow, adjust signal levels, to divide voltages and many other uses. <br>
 The resistance value of the part is given in ohm. <br>
 *Example:*  Limiting the amount of current flowing through LED's or Pulling Wires to a certain level while not shorting the circuit. For example, if something needs a signal default High on the input it can be realized with a Pull-up resistor to the supply voltage. This prevent a short circuit if the pin is switched low.
-- [**Transistor:**](https://en.wikipedia.org/wiki/Transistor) The electronic equivalent of a switch. With two main categories, MOSFET  and Bipolar. Both of them comes with N- and P-doped variants. The range of application is wide. They can be used as amplifier or simply as switches. For our purpose only the use of as switch (in saturation) is relevant. <br>
+- [**Transistor:**](https://en.wikipedia.org/wiki/Transistor) The electronic equivalent of a switch. With two main categories, MOSFET  and Bipolar. Both come with N- and P-doped variants. The range of application is wide. They can be used as amplifier or simply as switches. For our purpose only the use of as switch (in saturation) is relevant. <br>
 *Example:* Using an Npn bipolar transistor we could switch High currents directly from the source. Without risk to damage a Pin of the microcontroller due to overload.
 - [**Diode:**](https://en.wikipedia.org/wiki/Diode) Is an electrical component that allow current to flow only in one direction. <br>
 *Example:* Often used as rectifiers. A special case among diodes are LED, when current flows through them they emit light of a certain wave length.
-- [**Capacitor:**](https://en.wikipedia.org/wiki/Capacitor) Capacitors are Conducting plates parallel to each other. They are able to draw energy from a source and store it. Inside the two metal plates separated by a non-conducting substance. When activated, a capacitor quickly releases electricity in a tiny fraction of a second. <br>
+- [**Capacitor:**](https://en.wikipedia.org/wiki/Capacitor) Capacitors are Conducting plates parallel to each other. They can draw energy from a source and store it. Inside the two metal plates separated by a non-conducting substance. When activated, a capacitor quickly releases electricity in a tiny fraction of a second. <br>
 *Example:* They can be used to flatten fluctuation supply. Placed close to the supply Pins of any IC (integrated circuit) a capacitor stabilize the IC’s voltage supply.
 
 </p>
@@ -151,7 +156,7 @@ The DS3231 is a low-cost, extremely accurate I²C real-time clock (RTC) with an 
 
 The Output Pins of the module are CMOS Open-Drain, so we need to add a Pull-up resistor to pull it on an active HIGH level for our microcontroller to notice it. In our case this would be the **SQW** pin. <br>
 
-This would be true for our serial communication pins too (**SDA**, **SCL**) usually this is already implemented with the intern pullup's of the microcontroller.
+This would be true for our serial communication pins too (**SDA**, **SCL**) usually this is already implemented with the intern pullup of the microcontroller.
 
 </p>
 
@@ -173,13 +178,13 @@ The picture shows our module, with the diode and resistor mentioned above marked
 
 The signal levels 1 and 0 are ofthen called HIGH or LOW at some point, all of these are refering to the same levels (Supplay Voltage and GND). <br>
 
-NAND stands for **not** **and**, what this mean can be shown in the truth table of this gate. Basically the output is always HIGH except when both inputs are HIGH. In the picture below A and B are the inputs while C is the output. The output also requires an pullup resistor to pull the signal level to HIGH as its cmos-open-drain nature. <br>
+NAND stands for **not** **and**, what this mean can be shown in the truth table of this gate. Basically, the output is always HIGH except when both inputs are HIGH. In the picture below A and B are the inputs while C is the output. The output also requires a pullup resistor to pull the signal level to HIGH as its cmos-open-drain nature. <br>
 
 ![battery security](./docs/truthtable.PNG)
 
 We use a CD40107BE IC the datasheet can be found in the docs folder, the truth table was also taken from the datasheet. <br>
 
-A special use case for the NAND Gate is to invert incomming signals, when we combine the pins A and B it's inverting the signal we supply to the combination of the two. You also can see this in first and last lane of the truth table, where A and B are equal. <br>
+A special use case for the NAND Gate is to invert incomming signals, when we combine the pins A and B it's inverting the signal. You also can see this in first and last lane of the truth table, where A and B are equal. <br>
 
 We can now use this gate to create a flip flop. This is a special circuit designed to store a specific state as to 1 or 0 (HIGH or LOW) representing supply voltage level and ground level in most cases.
 
@@ -216,7 +221,7 @@ You can create 99 standard directories, which follow the scheme 01, 02, 03 .... 
 
 <p>
 
-Raspberry Pi Foundation entrance in the world of microcontrollers. The company itself is well known for its single board computers. This much smaller module comes with a fairly good price. The difference between the bigger RaspberryPi's is that not supposed to be a whole computer. Therefore it comes with less computing power and programmable memory space and probably more important no Operating system. That to be said you program the function of the module on your own. It is also suitable for low power applications because it does not need that much power.
+Raspberry Pi Foundation entrance in the world of microcontrollers. The company itself is well known for its single board computers. This much smaller module comes with a fairly good price. The difference between the bigger RaspberryPi's is that not supposed to be a whole computer. Therefore, it comes with less computing power and programmable memory space and probably more important no Operating system. That to be said you program the function of the module on your own. It is also suitable for low power applications because it does not need that much power.
 <br>
 
 The technical aspects can be found in the Datasheet linked below:
@@ -247,7 +252,7 @@ For more information look at the Datasheet provided below, but more Important is
 
 MicroPython is a efficient implementation of the Python 3 programming language it is optimised to run on microcontrollers, like our Pico. It includes a small subset of the Python standard librarys, but its more than sufficient to the needs of this project. <br>
 We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of basic electronic projects. <br>
-In order to not further stretch this tutorial you can find tons of good content online such as [this](https://www.programiz.com/python-programming/first-program) explaining the basics of programming in Python. If you not that familiar with programming simply take the codes provided, you may play around with it and learn by doing. <br>
+In order to not further stretch this tutorial, you can find tons of good content online such as [this](https://www.programiz.com/python-programming/first-program) explaining the basics of programming in Python. If you are not that familiar with programming simply take the codes provided, you may play around with it and learn by doing. <br>
 
 latest version of [Thonny](https://thonny.org/)
 
@@ -259,7 +264,7 @@ latest version of [Thonny](https://thonny.org/)
 ---
 
 ### Lection 1.1: Installation
-A nice and simple tutorial for the following can also be found [here](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/0), every step is well written and illustrated. Take a look at it if something went wrong this might help out. <br>
+A nice and simple tutorial for the following can also be found [here](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/0), every step is well written and illustrated. You may look at it if something went wrong. <br>
 
 <p>
 
@@ -338,7 +343,7 @@ When you save the code to your Pico this time give the file the name **main.py**
 <p>
 
 **Theory:** <br>
-A Flip-flop is a bistable circuit saving a electronic state. It's fundamental circuit to store digital information. In games like Minecraft you can build such a thing pretty quickly. <br>
+A Flip-flop is a bistable circuit saving a electronic state. It's fundamental circuit to store digital information. In games like Minecraft, you can build such a thing pretty quickly. <br>
 In the game you can build an inverter out of a redstone wire and a redstone torch attached to the block. When we connect two inverters this will form a Bistable state. Switching one of the buttons will cause the system to flip side and will stay that way untill the other button is pressed. <br>
 
 ![Minecraft FF](./docs/mc_ff.png)
@@ -350,7 +355,7 @@ In the picture below the raw scematic of a real world Flip-flop is shown. The ba
 ![Real FF](./docs/realFF.jpg)
 
 **Circuit:** <br>
-Now we gona build a small circuit to test this functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we have to pick the correct wire, either pink or violet and hold it onto the ground rail (black). <br> This could theoretically also achieved with our Pico. When we connect those two wires to output pins and set them to HIGH state. As soon as we pull the correct one LOW the FF should switch and the other LED should light up. <br>
+Now we gona build a small circuit to test this functionality. Our real-world implementatin of the FF reacts when one of the inputs is pulled low. So we simulate the press of a button by simply attatching lose wires, which we can connect manually to simulate a button press. In order to flip we must pick the correct wire, either pink or violet and hold it onto the ground rail (black). <br> This could theoretically also achieved with our Pico. When we connect those two wires to output pins and set them to HIGH state. As soon as we pull the correct one LOW the FF should switch and the other LED should light up. <br>
 
 <br>
 
@@ -442,8 +447,9 @@ It is also possible to use this device manually. Take a loose wire (grey in the 
 ---
 
 <p>
+This section is a short reminder on how to use the ADC (Analog digital conveter) of the Pico. Altough a potentiometer would be perfectly suited for this task we need to calibrate our moiture sensor anyway. <br>
 Now were gona prepare our capacitive moisture sensor. We need to calibrate the sensors threshold values, to estimate if the plant pot is dry or wet.
-Therefore we will need a cup of water, the plant pot could also help as well. <br>
+Therefore we will need a cup of water, the plant pot could also help as well. We want to define boarders for our measured values to decide if the measurement was ok or we got some kind of error. <br>
 
 Build up the circuit according to the following: <br>
 ![moisture sensor](./docs/calibrate.png)
@@ -454,19 +460,33 @@ Now upload the code to the Pico:
 <br>
 
 <pre><code>
-import machine
-import time
- 
+import time, machine
+
+#defined global variables
+_up = 3000
+_low = 1000
+
 analog_value = machine.ADC(28)
- 
-while True:
-    reading = analog_value.read_u16()     
-    print("ADC: ",reading)
-    timee.sleep(1)
+
+#take multiple measurements
+vals=[0] * 60 #create list with 60 positions
+for index, element in enumerate(vals): #iterate over list
+    vals[index]=analog_value.read_u16()) #fill list with readings
+val = sum(vals) / len(vals) #derive the average
+
+#decide if measurement is ok
+if _low <= val <= _up:
+    if val > limit:
+        #do something
+    else:
+        print('I feel fine')
+else:
+    print('Warning: Measurement went wrong')
 </code></pre>
 
 When these steps are completed we can start with our calibration. Don't forgett to hit the run button as soon as you have uploaded this code. First take a measurement of the sensor while in air. Writte down this value somewhere as we need it later. Measurements higher than this value are neglectable so they mark the upper boarder of our sensor values. Now hold the sensor into the cup of water, it is important to instert the sensor only up to the white line! The measurements now represent the lower boarder. <br>
-With this two boarder values we defined our measurement range. When you put the sensor into the plant pot we get a feeling on realistic values. <br>
-Later when we try to decide if our plant pot is dry or not we will define a boarder value within the measurement range. When the measurement pass this value we can decide on how to react in the final goal we will, then play a random track to signal the plants needs. <br>
+With these two boarder values we defined our measurement range. When you put the sensor into the plant pot we get a feeling on realistic values. <br>
+Later when we try to decide if our plant pot is dry or not we will define a boarder value within the measurement range. When the measurement passes this value we can decide on how to react in the final goal we will, then play a random track to signal the plants needs. <br>
+
 
 </p>
