@@ -74,6 +74,7 @@ Main goal of this project is to realize a speaking plant. The existing code shou
 
 <br>
 
+**Circuit description:**
 As power supply in this version a 9V block battery or accumulator is used. The circuit is protected by a fuse and a diode agains reversed polarity. An improvement to this would probably be a [P-Mosfet](https://components101.com/articles/design-guide-pmos-mosfet-for-reverse-voltage-polarity-protection). <br>
 The next part is a Buck-converter to regulate voltage down to 5V, it is important to first adjust the convterter to about 5V output bevore soldering it in. Doublecheck the Voltage in order to avoid damaging parts! <br>
 On the right bottom of the sketch sits the Dfplayer module with our SD card. <br>
@@ -81,12 +82,97 @@ Above the buck converter is the level shifter to avoid damage to the RaspberryPi
 Now we talk about a whole group of parts, which should save some energy in the long run. The Pico is able to cut off its own power supply with a Flip-flop formed by the NAND Gates. It also controlls the RTC and set alarms to flip it on again to wake up the whole system. In the middle we see the CD401007BE IC it holds two NAND Gates. This part works together with the RTC module, at the top of the sketch and the two Mosfet transistors on the right. This group controlls the power of the microcontroller and the dfplayer module, as said saving energy by turning them of while waiting. <br>
 The last thing is a capacitive moisture sensor, it brings us the ability to monitor the plant condition and play sounds when the plant pot seems to be dry. <br>
 
-<pre><code>
-code follow soon!
+<br>
 
-#bla bla 
-#bla 
-#blabla
+You need to upload [main.py](./code/main.py) to the Pico. We import some additional code, therefor you need to upload [dfplayermini.py](./code/dfplayermini.py) and [ds3231_impl.py](./code/ds3231_impl.py) as well. <br>
+
+<br>
+
+**Code description:**
+Now lets take a quick look at the coding part. As mentioned above too keep things simple I try to avoid complicated structures in order to reach a good beginnerfriendly readability. <br>
+First we start as always with imports of important modules such as the DFplayer-mini  or DS3231 RTC. Importing some additional hardware and software modules such as I2C or random.
+
+<pre><code>
+from dfplayermini import Player
+from ds3231_impl import ds3231
+from machine import Pin, I2C
+import time
+import binascii
+import sys
+import random
+</code></pre>
+
+Some variables wont change throughout the operating process therefor we define some constants and initialize some Pin's:
+<pre><code>
+I2C_PORT = 0
+I2C_SDA = 16
+I2C_SCL = 17
+
+dry_baseline = 600
+
+ALARM_PIN = 14
+
+led2 = Pin(15, Pin.OUT)
+test=0
+led = Pin(25, Pin.OUT)
+reset = Pin(20, Pin.OUT)
+</code></pre>
+
+Now we come to the main funciton of our programm. At first we will establish the serial communication to the RTC module to get access to date and time. Next step is to confirm the correct value for minute to make sure we didn't woke up due to some outside caused error. Then with 'if analog read > baseline' we want to check if the measurement exceds our defined baseline. <br>
+If this condition is true we will play a random sound. For example from the sounds dictionary we select a random number from the 'voiceline_at' and play it. The modules goes to sleep after 15 seconds.
+<pre><code>
+if __name__ == '__main__':
+    led.value(0) # activate onboard LED
+    rtc = ds3231(I2C_PORT,I2C_SCL,I2C_SDA) #init serial communication with RTC module
+    time.sleep(1) #give init process some time
+    #rtc.set_time('13:26:25,Tuesday,2022-02-17') #set rtc time uncomment if needed
+    #time.sleep_ms(1)
+    
+    match_min=[0, 15, 30, 32, 45] #wake every list entry, keep 2 min distance!
+    #match_min=range(0, 59, 3) #wake every 3 min
+    
+    print(rtc.read_time())
+    y, month, day, h, min1, sec1, wday=rtc.read_time()
+    if min1 in match_min: #check for correct time
+    #if True:
+        print('check plant condition')
+        if a_read > dry_baseline:
+            print('AAH! Saufen!')
+            #using dictionarys as workaround for problems with folder system on the module
+            sounds={'music': [1, 2], 'voicline_at':[3,4,5,6,7,8,9,10]} # dictionary containing lists
+            number_i=random.randint(1, len(sounds['voicline_at'])) #select random number from dictionary
+            number=sounds['voicline_at'][number_i]
+            music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) #init player module
+            time.sleep_ms(10)
+            music.module_wake()
+            time.sleep_ms(10)
+            music.volume(50)
+            music.play(number) #play track 1
+            time.sleep(15)
+            #music.pause()
+            music.module_sleep()
+        else:
+            print('plant fine!')
+
+</code></pre>
+
+The last steps are to set a new wake up alarm. Therefor we take our 'min1' measurement and select the next larger number from the array. If no larger number can be found we break no value would be set and the 'next_index' variable will remain at predefined value 0, picking the first index of our list. Then we can shutdown the whole thing by reseting the Flip-flop. <br>
+<br> I added some time delays (sleep) here and there to make give the controller some time to initialize Serial conection and make sure it reached a stable state.
+<pre><code>
+    #set next wakeup-alarm
+    next_index=0
+    for index, element in enumerate(match_min):
+        if element > min1:
+            next_index=index
+            break
+    rtc.set_alarm1(f"{h:02}:{match_min[next_index]:02}:{sec1:02},{wday},{y:04}-{month:02}-{day:02}")
+    time.sleep_ms(10)
+    
+    #reset FF and shutdown pico's supply
+    print('shutdown')
+    led.value(0)
+    time.sleep_ms(10)
+    reset.value(1)
 </code></pre>
 
 </p>

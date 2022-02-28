@@ -8,7 +8,7 @@ PLAYING = 2
 
 class Player:
     def __init__(self, pin_TX, pin_RX):
-        self.uart = UART(0, 9600, tx=pin_TX, rx=pin_RX)
+        self.uart = UART(0, 9600, tx=pin_TX, rx=pin_RX, bits=8, parity=None, stop=0)
         self.cmd(0x3F)  # send initialization parametres
         self._fadeout_timer = Timer(-1)
 
@@ -16,9 +16,11 @@ class Player:
         self._max_volume = 50
         self._fadeout_speed = 0
 
-    def cmd(self, command, parameter=0x00):
+
+    def cmd(self, command, parameter=0, parameter2=0):
         query = bytes([0x7e, 0xFF, 0x06, command,
-                       0x00, 0x00, parameter, 0xEF])
+                       0x00, parameter2, parameter, 0xEF])
+        print(query)
         self.uart.write(query)
 
     def _fade_out_process(self, timer):
@@ -34,16 +36,19 @@ class Player:
 
     # playback
 
-    def play(self, track_id=False):
+    def play(self, track_id=False, folder=False):
         if not track_id:
             self.resume()
-        elif track_id == 'next':
-            self.cmd(0x01)
-        elif track_id == 'prev':
-            self.cmd(0x02)
+        elif folder:
+            print(f'Go folder {folder}')
+            if isinstance(track_id, int) and isinstance(folder, int):
+                print(f'play {track_id}')
+                #self.cmd(0x0F, parameter=0x00, parameter2=folder)
+                self.cmd(0x0F, track_id, folder)
         elif isinstance(track_id, int):
             self.cmd(0x03, track_id)
-
+            print(f'play {track_id}')
+            
     def pause(self):
         self.cmd(0x0E)
 
@@ -99,3 +104,4 @@ class Player:
 
     def module_reset(self):
         self.cmd(0x0C)
+
