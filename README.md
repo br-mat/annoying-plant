@@ -454,7 +454,7 @@ Now were gona prepare our capacitive moisture sensor. We need to calibrate the s
 Therefore we will need a cup of water, the plant pot could also help as well. We want to define boarders for our measured values to decide if the measurement was ok or we got some kind of error. <br>
 
 Build up the circuit according to the following: <br>
-![moisture sensor](./docs/calibrate.png)
+![moisture sensor](./docs/lec4.png)
 
 <br>
 Now upload the code to the Pico:
