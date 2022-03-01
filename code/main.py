@@ -19,6 +19,9 @@ Talking plant project useing the RaspberryPi Pico module.
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
     
     Contact: matthiasbraun@gmx.at
+
+Credits:
+    dfplayer part based on https://github.com/lavron/micropython-dfplayermini
 """
 from dfplayermini import Player
 from ds3231_impl import ds3231
