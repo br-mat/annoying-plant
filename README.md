@@ -99,7 +99,7 @@ First we start as always with imports of important modules such as the DFplayer-
 <pre><code>
 from dfplayermini import Player
 from ds3231_impl import ds3231
-from machine import Pin, I2C
+from machine import Pin, I2C, ADC
 import time
 import binascii
 import sys
@@ -140,23 +140,33 @@ if __name__ == '__main__':
     if min1 in match_min: #check for correct time
     #if True:
         print('check plant condition')
-        if a_read > dry_baseline:
-            print('AAH! Saufen!')
-            #using dictionarys as workaround for problems with folder system on the module
-            sounds={'music': [1, 2], 'voicline_at':[3,4,5,6,7,8,9,10]} # dictionary containing lists
-            number_i=random.randint(1, len(sounds['voicline_at'])) #select random number from dictionary
-            number=sounds['voicline_at'][number_i]
-            music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) #init player module
-            time.sleep_ms(10)
-            music.module_wake()
-            time.sleep_ms(10)
-            music.volume(50)
-            music.play(number) #play track 1
-            time.sleep(15)
-            #music.pause()
-            music.module_sleep()
+        #take measurement
+        vals=[0]*50
+        for index, element in enumerate(vals):
+            vals[index]=analog_value.read_u16()
+        a_read = sum(vals)/len(vals)
+        if _low <= a_read <= _up:
+            if a_read > dry_baseline:
+                print('AAH! Saufen!')
+                #using dictionarys as workaround for problems with folder system on the module
+                sounds={'music': [1, 2], 'voicline_at':[3,4,5,6,7,8,9,10]} # dictionary containing lists
+                number_i=random.randint(1, len(sounds['voicline_at'])) #select random number from dictionary
+                number=sounds['voicline_at'][number_i]
+                music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) #init player module
+                time.sleep_ms(10)
+                music.module_wake()
+                time.sleep_ms(10)
+                music.volume(50)
+                music.play(number) #play track 1
+                time.sleep(15)
+                #music.pause()
+                music.module_sleep()
+            else:
+                print('plant fine!')
+                #do something at random events?
         else:
-            print('plant fine!')
+            print('Warning: measurement went wrong')
+            #do something when measurement not working?
 
 </code></pre>
 
@@ -552,18 +562,19 @@ Now upload the code to the Pico:
 <br>
 
 <pre><code>
-import time, machine
+from machine import Pin, I2C, ADC
+import time
 
 #defined global variables
 _up = 3000
 _low = 1000
 
-analog_value = machine.ADC(28)
+analog_value = ADC(28)
 
 #take multiple measurements
 vals=[0] * 60 #create list with 60 positions
 for index, element in enumerate(vals): #iterate over list
-    vals[index]=analog_value.read_u16()) #fill list with readings
+    vals[index]=analog_value.read_u16() #fill list with readings
 val = sum(vals) / len(vals) #derive the average
 
 #decide if measurement is ok
