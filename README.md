@@ -76,10 +76,14 @@ Main goal of this project is to realize a speaking plant. The existing code shou
 
 **Circuit description:**
 As power supply in this version a 9V block battery or accumulator is used. The circuit is protected by a fuse and a diode agains reversed polarity. An improvement to this would probably be a [P-Mosfet](https://components101.com/articles/design-guide-pmos-mosfet-for-reverse-voltage-polarity-protection). <br>
+
 The next part is a Buck-converter to regulate voltage down to 5V, it is important to first adjust the convterter to about 5V output bevore soldering it in. Doublecheck the Voltage in order to avoid damaging parts! <br>
 On the right bottom of the sketch sits the Dfplayer module with our SD card. <br>
-Above the buck converter is the level shifter to avoid damage to the RaspberryPi Pico (not 5V tolerant GPIO) all logic signals towards the Pico needs to be leveld down to 3.3V. <br>
+
+Above the buck converter the module in red is a level shifter module. The Pico is not 5V tolerant at its GPIO (general purpose input output) Pins, we risk damaging the part. The ds3231 serial communication is pulled HIGH to 5V level. This is the reason why we must shift down the signal to 3.3V of the Pico. At the shifter module we apply the higher 5V voltage level (red wire) at **'HV'** and 3.3V (orange wire) to **'LV'**. Then module will automatically shift any binary (0 or 1) to its coresponding sides voltage level. <br>
+
 Now we talk about a whole group of parts, which should save some energy in the long run. The Pico is able to cut off its own power supply with a Flip-flop formed by the NAND Gates. It also controlls the RTC and set alarms to flip it on again to wake up the whole system. In the middle we see the CD401007BE IC it holds two NAND Gates. This part works together with the RTC module, at the top of the sketch and the two Mosfet transistors on the right. This group controlls the power of the microcontroller and the dfplayer module, as said saving energy by turning them of while waiting. <br>
+
 The last thing is a capacitive moisture sensor, it brings us the ability to monitor the plant condition and play sounds when the plant pot seems to be dry. <br>
 
 <br>
@@ -512,8 +516,8 @@ while True:
 ---
 For more detailed information on the module visit [here](https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299). I already provided some information about it at the the Basics part, it is not mandatory to know all the details. <br>
 
-Now we gona test the function of the DFPlayer module. Build your circuit on the breadboard according the scematic. <br>
-For your information the module in red at the top of the sketch is a level shifter module. As mentioned above if we apply 5V to the GPIO (general purpose input output) Pins of the Pico we risk damaging the part. This is a problem because we connect the DFPlayer to 5V VCC, it will output HIGH signals at 5V level. With this module we apply the Higher 5V voltage level (red wire) at **'HV'** and 3.3V (orange wire) to **'LV'**. Then module will automatically shift any binary (0 or 1) to its coresponding sides voltage level. <br>
+Now we gona test the function of the DFPlayer module. Build your circuit on the breadboard according the scematic. There is no shifting of voltage level required, the DFplayer-mini outputs 3.3V for its communication. <br>
+
 
 ![Circuit DFPlayer](./docs/lec3.png)
 
@@ -536,7 +540,7 @@ It is also possible to use this device manually. Take a loose wire (grey in the 
 
 <p>
 This section is a short reminder on how to use the ADC (Analog digital conveter) of the Pico. Altough a potentiometer would be perfectly suited for this task we need to calibrate our moiture sensor anyway. <br>
-Now were gona prepare our capacitive moisture sensor. We need to calibrate the sensors threshold values, to estimate if the plant pot is dry or wet.
+Now were gona prepare our capacitive moisture sensor. The sensor will be powered from the 3.3V output of the Pico. This way we do not need a voltage devider to convert the analog signal into save range for our controller (not 5V tollerant). We need to calibrate the sensors threshold values, to estimate if the plant pot is dry or wet.
 Therefore we will need a cup of water, the plant pot could also help as well. We want to define boarders for our measured values to decide if the measurement was ok or we got some kind of error. <br>
 
 Build up the circuit according to the following: <br>
