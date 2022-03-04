@@ -48,10 +48,11 @@ def pick_random_track(content_list):
     number=random.randint(1, content_list[1]) #select random number from dictionary
     music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) #init player module
     time.sleep_ms(10)
-    music.volume(40)
+    music.volume(25)
+    time.sleep_ms(10)
     #music.play(12,2)
     music.play(number, content_list[0]) #play track 1
-    time.sleep(25)
+    time.sleep(12)
     music.stop()
 
 
@@ -64,7 +65,7 @@ if __name__ == '__main__':
     #time.sleep_ms(1)
     
     #match_min=[0, 15, 30, 32, 45] #wake every list entry, keep 2 min distance!
-    match_min=range(0, 59, 3) #wake every 3 min
+    match_min=range(0, 59, 2) #wake every 3 min
     
     print(rtc.read_time())
     y, month, day, h, min1, sec1, wday=rtc.read_time()
@@ -72,7 +73,7 @@ if __name__ == '__main__':
     #if True:
         print('check plant condition')
         sounds={'music': [1, 2], 'voicline_thirsty_aut': [2, 16], 'voiceline_random_aut': [3, 22]} # dictionary containing lists [folder, num tracks]
-        
+        time.sleep(1)
         #take measurement
         vals=[0]*50
         for index, element in enumerate(vals):
@@ -109,3 +110,5 @@ if __name__ == '__main__':
     led.value(0)
     time.sleep_ms(10)
     reset.value(1)
+
+
