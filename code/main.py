@@ -31,9 +31,6 @@ import binascii
 import sys
 import random
 
-#    the new version use i2c0,if it dont work,try to uncomment the line 14 and comment line 17
-#    it should solder the R3 with 0R resistor if want to use alarm function,please refer to the Sch file on waveshare Pico-RTC-DS3231 wiki
-#    https://www.waveshare.net/w/upload/0/08/Pico-RTC-DS3231_Sch.pdf
 I2C_PORT = 0
 I2C_SDA = 16
 I2C_SCL = 17
@@ -46,47 +43,54 @@ ALARM_PIN = 14
 led = Pin(25, Pin.OUT)
 reset = Pin(20, Pin.OUT)
 
-#insert class ds3231 if needed
-        
+#define a function to handle random tracks of specific folders, list from the dictionary need to be passed accessed by key
+def pick_random_track(content_list):
+    number=random.randint(1, content_list[1]) #select random number from dictionary
+    music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) #init player module
+    time.sleep_ms(10)
+    music.volume(40)
+    #music.play(12,2)
+    music.play(number, content_list[0]) #play track 1
+    time.sleep(25)
+    music.stop()
+
+
+
 if __name__ == '__main__':
     led.value(0) # activate onboard LED
     rtc = ds3231(I2C_PORT,I2C_SCL,I2C_SDA) #init serial communication with RTC module
-    time.sleep(1) #give init process some time
+    time.sleep_ms(20) #give init process some time
     #rtc.set_time('13:26:25,Tuesday,2022-02-17') #set rtc time uncomment if needed
     #time.sleep_ms(1)
     
-    match_min=[0, 15, 30, 32, 45] #wake every list entry, keep 2 min distance!
-    #match_min=range(0, 59, 3) #wake every 3 min
+    #match_min=[0, 15, 30, 32, 45] #wake every list entry, keep 2 min distance!
+    match_min=range(0, 59, 3) #wake every 3 min
     
     print(rtc.read_time())
     y, month, day, h, min1, sec1, wday=rtc.read_time()
     if min1 in match_min: #check for correct time
     #if True:
         print('check plant condition')
+        sounds={'music': [1, 2], 'voicline_thirsty_aut': [2, 16], 'voiceline_random_aut': [3, 22]} # dictionary containing lists [folder, num tracks]
+        
         #take measurement
         vals=[0]*50
         for index, element in enumerate(vals):
             vals[index]=analog_value.read_u16()
         a_read = sum(vals)/len(vals)
-        if _low <= a_read <= _up:
-            if a_read > dry_baseline:
+        
+        #if _low <= a_read <= _up: #check for reasonable values
+        if True:
+            #if a_read > dry_baseline: #check if plant is dry
+            if False:
                 print('AAH! Saufen!')
                 #using dictionarys as workaround for problems with folder system on the module
-                sounds={'music': [1, 2], 'voicline_at':[3,4,5,6,7,8,9,10]} # dictionary containing lists
-                number_i=random.randint(1, len(sounds['voicline_at'])) #select random number from dictionary
-                number=sounds['voicline_at'][number_i]
-                music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) #init player module
-                time.sleep_ms(10)
-                music.module_wake()
-                time.sleep_ms(10)
-                music.volume(50)
-                music.play(number) #play track 1
-                time.sleep(15)
-                #music.pause()
-                music.module_sleep()
+                pick_random_track(sounds['voicline_thirsty_aut'])
             else:
                 print('plant fine!')
                 #do something at random events?
+                pick_random_track(sounds['voiceline_random_aut'])
+                    
         else:
             print('Warning: measurement went wrong')
             #do something when measurement not working?

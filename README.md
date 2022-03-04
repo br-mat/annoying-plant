@@ -106,7 +106,7 @@ import sys
 import random
 </code></pre>
 
-Some variables wont change throughout the operating process therefor we define some constants and initialize some Pin's:
+Some variables wont change throughout the operating process therefor we define some constants and initialize some Pin's. We also define a function to handle playing random sounds:
 <pre><code>
 I2C_PORT = 0
 I2C_SDA = 16
@@ -120,50 +120,58 @@ led2 = Pin(15, Pin.OUT)
 test=0
 led = Pin(25, Pin.OUT)
 reset = Pin(20, Pin.OUT)
+
+#define a function to handle random tracks of specific folders, list from the dictionary need to be passed accessed by key
+def pick_random_track(content_list):
+    number=random.randint(1, content_list[1]) #select random number from dictionary
+    music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) #init player module
+    time.sleep_ms(10)
+    music.volume(40)
+    #music.play(12,2)
+    music.play(number, content_list[0]) #play track 1
+    time.sleep(25)
+    music.stop()
+
 </code></pre>
 
 Now we come to the main funciton of our programm. At first we will establish the serial communication to the RTC module to get access to date and time. Next step is to confirm the correct value for minute to make sure we didn't woke up due to some outside caused error. Then with 'if analog read > baseline' we want to check if the measurement exceds our defined baseline. <br>
-If this condition is true we will play a random sound. For example from the sounds dictionary we select a random number from the 'voiceline_at' and play it. The modules goes to sleep after 15 seconds.
+If this condition is true we will play a random sound. For example from the sounds dictionary we select a random number from the 'voiceline_thirsty_at' and play it. The modules goes to sleep after 25 seconds, which is defined in the '*pick_random_track*' function. Some if conditions below are just set **True** to debug the functionality of our code, you may look into '*main.py*' for the actual code to deploy:
 <pre><code>
 if __name__ == '__main__':
     led.value(0) # activate onboard LED
     rtc = ds3231(I2C_PORT,I2C_SCL,I2C_SDA) #init serial communication with RTC module
-    time.sleep(1) #give init process some time
+    time.sleep_ms(20) #give init process some time
     #rtc.set_time('13:26:25,Tuesday,2022-02-17') #set rtc time uncomment if needed
     #time.sleep_ms(1)
     
-    match_min=[0, 15, 30, 32, 45] #wake every list entry, keep 2 min distance!
-    #match_min=range(0, 59, 3) #wake every 3 min
+    #match_min=[0, 15, 30, 32, 45] #wake every list entry, keep 2 min distance!
+    match_min=range(0, 59, 3) #wake every 3 min
     
     print(rtc.read_time())
     y, month, day, h, min1, sec1, wday=rtc.read_time()
     if min1 in match_min: #check for correct time
     #if True:
         print('check plant condition')
+        sounds={'music': [1, 2], 'voicline_thirsty_aut': [2, 16], 'voiceline_random_aut': [3, 22]} # dictionary containing lists [folder, num tracks]
+        
         #take measurement
         vals=[0]*50
         for index, element in enumerate(vals):
             vals[index]=analog_value.read_u16()
         a_read = sum(vals)/len(vals)
-        if _low <= a_read <= _up:
-            if a_read > dry_baseline:
+        
+        #if _low <= a_read <= _up: #check for reasonable values
+        if True:
+            #if a_read > dry_baseline: #check if plant is dry
+            if False:
                 print('AAH! Saufen!')
                 #using dictionarys as workaround for problems with folder system on the module
-                sounds={'music': [1, 2], 'voicline_at':[3,4,5,6,7,8,9,10]} # dictionary containing lists
-                number_i=random.randint(1, len(sounds['voicline_at'])) #select random number from dictionary
-                number=sounds['voicline_at'][number_i]
-                music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) #init player module
-                time.sleep_ms(10)
-                music.module_wake()
-                time.sleep_ms(10)
-                music.volume(50)
-                music.play(number) #play track 1
-                time.sleep(15)
-                #music.pause()
-                music.module_sleep()
+                pick_random_track(sounds['voicline_thirsty_aut'])
             else:
                 print('plant fine!')
                 #do something at random events?
+                pick_random_track(sounds['voiceline_random_aut'])
+                    
         else:
             print('Warning: measurement went wrong')
             #do something when measurement not working?
@@ -171,7 +179,7 @@ if __name__ == '__main__':
 </code></pre>
 
 The last steps are to set a new wake up alarm. Therefor we take our 'min1' measurement and select the next larger number from the array. If no larger number can be found we break no value would be set and the 'next_index' variable will remain at predefined value 0, picking the first index of our list. Then we can shutdown the whole thing by reseting the Flip-flop. <br>
-<br> I added some time delays (sleep) here and there to make give the controller some time to initialize Serial conection and make sure it reached a stable state.
+<br> I added some time delays (sleep) here and there to make give the controller some time to initialize Serial conection and make sure it reached a stable state:
 <pre><code>
     #set next wakeup-alarm
     next_index=0
