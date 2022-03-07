@@ -392,13 +392,19 @@ Now select **MicroPython (Raspberry Pi Pico)** <br>
 Now we can start to write the actual programm. Starting with a simple sketch to show basic functionality. Make sure your Pico is connected for the next steps. It should be select automatically the right port.
 <pre><code>
 #Hello World!
-import time
 
-ledpin = Pin(25, Pin.OUT) # here we declare the variable ledpin as Pin 25 in output mode
+# import existing code
+import time
+from machine import Pin
+
+ledpin = Pin(25, Pin.OUT) # here we declare the 'ledpin' as Pin 25 in output mode, variables in python can be anything basically (type will be handled automatically)
 
 print("Hello World!") # this will print "Hello World!" to the console in our IDE, the message will be sent by the Pico over USB-serial interface
+message='Test!123'
+print(message) #this will print the variable message (which is a string in this case)
 
-ledpin.value(1) # now we output a HIGH signal on the defined ledpin
+
+ledpin.value(1) # now we output a HIGH signal on the defined ledpin (anything except 0 is counted as HIGH)
 time.sleep(1) # wait for 1 second, the controller wont do ANYTHING while this period of time
 time.sleep_ms(1) # wait for 1 millisecond
 
