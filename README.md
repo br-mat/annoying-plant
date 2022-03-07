@@ -84,7 +84,8 @@ Above the buck converter the module in red is a level shifter module. The Pico i
 
 Now we talk about a whole group of parts, which should save some energy in the long run. The Pico is able to cut off its own power supply with a Flip-flop formed by the NAND Gates. In the picture above it ist orientated with the small engraved dot on the bottom left side. It also controlls the RTC and set alarms to flip it on again to wake up the whole system. In the middle we see the CD401007BE IC it holds two NAND Gates. This part works together with the RTC module, at the top of the sketch and the two Mosfet transistors on the right. This group controlls the power of the microcontroller and the dfplayer module, as said saving energy by turning them of while waiting. <br>
 
-The last thing is a capacitive moisture sensor, it brings us the ability to monitor the plant condition and play sounds when the plant pot seems to be dry. <br>
+The last thing is a capacitive moisture sensor, it brings us the ability to monitor the plant condition and play sounds when the plant pot seems to be dry. Don't forgett to calibrate the moisture sensors values, as it can be seen in [Lection 4](#lection-4-analog-input).
+<br>
 
 <br>
 
@@ -196,6 +197,7 @@ The last steps are to set a new wake up alarm. Therefor we take our 'min1' measu
     time.sleep_ms(10)
     reset.value(1)
 </code></pre>
+
 
 </p>
 
