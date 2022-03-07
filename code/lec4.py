@@ -19,6 +19,7 @@ val = sum(vals) / len(vals) #derive the average
 if _low <= val <= _up:
     if val > limit:
         #do something
+        print('do something')
     else:
         print('I feel fine')
 else:
