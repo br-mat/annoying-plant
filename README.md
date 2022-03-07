@@ -545,9 +545,34 @@ If you hit the play sign again it should start with the programm, in this case i
 
 See the code here: [dfplayer_example.py](./code/dfplayer_example.py) <br>
 
-Changing the code is pretty simple i'll provide an example for each function of the library and how to use it: <br>
+Changing the code is pretty simple i'll provide an example of some functions from the library and how to use them: <br>
 <pre><code>
 code here follow soon!
+# In order to use the functions we need to use the created object instance of the dfplayer library
+# first we need to initialize our Player class object
+player123 = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1)) # player123 naming is not relevant an can be changed
+player123.awake() # wakeup the module
+
+# how to play tracks
+# folder id is optional, keep in mind that files without folder are played in order of their creation not by the actuall number!
+# to avoid interupt playing we may set a delay, or use an aditional wire to indicate if the module is busy or not (i'll use delay, for now)
+player123.play(track_id, folder_id)
+
+# this will pause the sound
+player123.pause()
+
+# we can resume to play
+player123.resume()
+
+# volume change
+player123.volume(40) #value can be adjusted
+
+# module options
+player123.module_reset()
+player123.module_wake()
+player123.module_sleep()
+
+# there are more options available but these are the most important ones
 </code></pre>
 
 It is also possible to use this device manually. Take a loose wire (grey in the sketch) connected to GND and tipp shortly on the **IO_2** Pin to select the next track. The corresponding Pin you can find [above](#df-mini-player). This will play the whole song. When holding this pin we can adjust the Volume, therefor look up the functions from the table in the "Notes". When working with the loose wire avoid connecting it directly to VCC, this will short the circuit. To avoid this problem you might add a resistor of any value above 1k to this wire in series. <br>
