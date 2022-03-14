@@ -28,27 +28,27 @@ from dfplayermini import Player
 from time import sleep
 
 music = Player(pin_TX=machine.Pin(0), pin_RX=machine.Pin(1))
+sleep(0.1) #await init process
 music.module_wake()
-sleep(1)
+sleep(0.1)
 print("set volume")
-music.volume(50)
+music.volume(80) #setting volume in percent
 
 print("start play")
-music.play(1)
-music.volume(30)
-sleep(10)
-
-print("stop play with fadeout")
-music.fadeout(5000)
+music.play(1) #play track 1 of root directory
 sleep(5)
+music.stop() #stop track
+
 music.play('next')
-sleep(10)
-
+sleep(5)
 music.pause()
+sleep(2)
+music.resume()
 sleep(3)
+music.stop()
 
-music.loop()
-music.play(2)
-sleep(20)
+music.play(1, 2) #play 1. track in folder 2
+sleep(10)
+music.stop()
 
 music.module_sleep()
