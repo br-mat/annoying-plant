@@ -35,9 +35,13 @@ class Player:
         self.cmd(0x3F)  # send initialization parametres
         self._fadeout_timer = Timer(-1)
 
-        self._volume = 15
+        self._volume = 100
         self._max_volume = 30
         self._fadeout_speed = 0
+
+        utime.sleep_ms(100) #await init
+
+        self.volume(50) #initialize volume at 50%
 
 #########################################################################
 # methods
@@ -58,8 +62,6 @@ class Player:
             if not isinstance(track_id, int): #play track 1 on incorrect input
                 print("Warning: track_id type not correct")
                 track_id=1
-
-        self.volume(self._volume) # set volume
 
         if folder:
             print(f'Go folder {folder} play {track_id}')
