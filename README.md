@@ -364,7 +364,7 @@ For more information look at the Datasheet provided below, but more Important is
 
 MicroPython is a efficient implementation of the Python 3 programming language it is optimised to run on microcontrollers, like our Pico. It includes a small subset of the Python standard librarys, but its more than sufficient to the needs of this project. <br>
 We will use Thonny to write our python code. Its a beginnerfriendly easy to use IDE perfectly fitting the needs to run all kinds of basic electronic projects. <br>
-In order to not further stretch this tutorial, you can find tons of good content online such as [this](https://www.programiz.com/python-programming/first-program) explaining the basics of programming in Python. If you are not that familiar with programming simply take the codes provided, you may play around with it and learn by doing. <br>
+In order to not further stretch this tutorial, you can find tons of good content online such as [this](https://www.programiz.com/python-programming/first-program) or [that](https://www.youtube.com/watch?v=RBpK8C3N-Y8&t=6968s) explaining the basics of programming in Python. If you are not that familiar with programming simply take the codes provided, you may play around with it and learn by doing. <br>
 
 latest version of [Thonny](https://thonny.org/)
 
@@ -602,15 +602,27 @@ Now upload the code to the Pico:
 
 <br>
 
+When these steps are completed we can start with our calibration. Don't forgett to hit the run button as soon as you have uploaded this code. First take a measurement of the sensor while in air. Writte down this value somewhere as we need it later. Measurements higher than this value are neglectable so they mark the upper boarder of our sensor values. Now hold the sensor into the cup of water, it is important to instert the sensor only up to the white line! The measurements now represent the lower boarder. <br>
+With these two boarder values we defined our measurement range. When you put the sensor into the plant pot we get a feeling on realistic values. <br>
+Later when we try to decide if our plant pot is dry or not we will define a boarder value within the measurement range. When the measurement passes this value we can decide on how to react in the final goal we will, then play a random track to signal the plants needs. <br>
+
 <pre><code>
 from machine import Pin, I2C, ADC
 import time
 
 #defined global variables
-_up = 3000
-_low = 1000
+_up = 44068.67
+_low = 17736.8
+limit = 30000.0
 
+#set analog pin
 analog_value = ADC(28)
+
+# function calculate relative moisture in percent
+def moisture(val):
+    perc = int(100-(val-_low)*100/(_up-_low)) #between 0 and 100
+    print(f"Soil Moisture: {perc}% ")
+    return perc
 
 #take multiple measurements
 vals=[0] * 60 #create list with 60 positions
@@ -619,18 +631,17 @@ for index, element in enumerate(vals): #iterate over list
 val = sum(vals) / len(vals) #derive the average
 
 #decide if measurement is ok
+print (moisture (val))
+#print (val)
 if _low <= val <= _up:
     if val > limit:
         #do something
+        print('I need water!')
     else:
-        print('I feel fine')
+        print('I feel fine ... maybee to ')
 else:
-    print('Warning: Measurement went wrong')
+    print(f'Warning: Measurement went wrong {val}')
+
 </code></pre>
-
-When these steps are completed we can start with our calibration. Don't forgett to hit the run button as soon as you have uploaded this code. First take a measurement of the sensor while in air. Writte down this value somewhere as we need it later. Measurements higher than this value are neglectable so they mark the upper boarder of our sensor values. Now hold the sensor into the cup of water, it is important to instert the sensor only up to the white line! The measurements now represent the lower boarder. <br>
-With these two boarder values we defined our measurement range. When you put the sensor into the plant pot we get a feeling on realistic values. <br>
-Later when we try to decide if our plant pot is dry or not we will define a boarder value within the measurement range. When the measurement passes this value we can decide on how to react in the final goal we will, then play a random track to signal the plants needs. <br>
-
 
 </p>
