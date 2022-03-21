@@ -264,7 +264,8 @@ The resistance value of the part is given in ohm. <br>
 #### DS3231 RTC Module
 <p>
 
-The DS3231 is a low-cost, extremely accurate I²C real-time clock (RTC) with an integrated temperature-compensated crystal oscillator. The device incorporates a batteryslott. When running this Module on active supply voltage and a battery, it is advised to remove either Resistor or the Diode itself or cut the wire inbetween them. Recharging a non-rechargeable battery is dangerous. It should be avoided at all costs. <br>
+The DS3231 is a low-cost, extremely accurate I²C real-time clock (RTC) with an integrated temperature-compensated crystal oscillator. The device incorporates a batteryslott. <br>
+The module is quite consistent over long time periods, it is temperature compensated so it should keep a quite acurate time even in rough circumstances. The serial communication standard used by the device is called [I²C](https://en.wikipedia.org/wiki/I%C2%B2C) or inter-integraterd-circuits. When running this Module on active supply voltage and a battery, it is advised to remove either Resistor or the Diode itself or cut the wire inbetween them. Recharging a non-rechargeable battery is dangerous. It should be avoided at all costs. <br>
 
 The Output Pins of the module are CMOS Open-Drain, so we need to add a Pull-up resistor to pull it on an active HIGH level for our microcontroller to notice it. In our case this would be the **SQW** pin. <br>
 
@@ -602,46 +603,121 @@ Now upload the code to the Pico:
 
 <br>
 
-When these steps are completed we can start with our calibration. Don't forgett to hit the run button as soon as you have uploaded this code. First take a measurement of the sensor while in air. Writte down this value somewhere as we need it later. Measurements higher than this value are neglectable so they mark the upper boarder of our sensor values. Now hold the sensor into the cup of water, it is important to instert the sensor only up to the white line! The measurements now represent the lower boarder. <br>
-With these two boarder values we defined our measurement range. When you put the sensor into the plant pot we get a feeling on realistic values. <br>
+When these steps are completed we can start with our calibration. Don't forgett to hit the run button as soon as you have uploaded this code below onto the Pico. First take a measurement of the sensor while in air. Writte down this value somewhere as we need it later. Measurements higher than this value are neglectable so they mark the upper boarder of our sensor values. Now hold the sensor into the cup of water, it is important to instert the sensor only up to the white line! Hit the run button again, the measurements now represent the lower boarder. <br>
+With these two boarder values we defined our measurement range. When you put the sensor into the plant pot we get a feeling on realistic values. In order to prevent future problems set the boarder boundary a bit wider than the measured values might be a good idea. <br>
 Later when we try to decide if our plant pot is dry or not we will define a boarder value within the measurement range. When the measurement passes this value we can decide on how to react in the final goal we will, then play a random track to signal the plants needs. <br>
+
+Upload the [code](./code/lec4_0.py):
+<pre><code>
+from machine import Pin, I2C, ADC
+
+#set analog pin
+analog_value = ADC(28)
+
+#defined global variables
+_up = 44068.67 #represent analog reading in air
+_low = 17736.8 #analog reading while in water
+
+#take multiple measurements, for better accuracy
+vals=[0] * 60 #create empty ist with 60 positions
+for index, element in enumerate(vals): #iterate over list
+    vals[index]=analog_value.read_u16() #fill list with readings
+#derive the average analog measurement
+val_raw = sum(vals) / len(vals)
+
+print(val_raw)
+</code></pre>
+
+When you replaced my values we can now think about a more practical example on how to use this sensor. You might read through and get the basic idea of the [code](./code/lec4.py): below, or upload and thest the sensor under real conditions in a plant.
 
 <pre><code>
 from machine import Pin, I2C, ADC
 import time
 
 #defined global variables
-_up = 44068.67
+_up = 44068.67 #represent analog reading
 _low = 17736.8
-limit = 30000.0
+
+#boundarys for plant condition (percent of soil moisture)
+limit_u = 65 #upper boundary (100% --> pure water)
+limit_l = 45 #lower boundary (0% --> air)
 
 #set analog pin
 analog_value = ADC(28)
 
 # function calculate relative moisture in percent
-def moisture(val):
-    perc = int(100-(val-_low)*100/(_up-_low)) #between 0 and 100
+def rel_moisture(val):
+    #sanity check
+    if val > _up:
+        print(f'Warning: measured value ({val}) greater than upper boarder ({_up})')
+        val=_up
+    if val < _low:
+        print(f'Warning: measured value ({val}) smaller than lower boarder ({_low})')
+        val=_low
+    #calculate percent value
+    perc = int((val-_low)*100/(_up-_low)) #between 0 and 100
+    perc = 100-perc #invert the result for better readability
     print(f"Soil Moisture: {perc}% ")
     return perc
 
-#take multiple measurements
-vals=[0] * 60 #create list with 60 positions
+#take multiple measurements, for better accuracy
+vals=[0] * 60 #create empty ist with 60 positions
 for index, element in enumerate(vals): #iterate over list
     vals[index]=analog_value.read_u16() #fill list with readings
-val = sum(vals) / len(vals) #derive the average
+#derive the average analog measurement
+val_raw = sum(vals) / len(vals)
 
-#decide if measurement is ok
-print (moisture (val))
-#print (val)
-if _low <= val <= _up:
-    if val > limit:
-        #do something
-        print('I need water!')
-    else:
-        print('I feel fine ... maybee to ')
+#pass raw measurement value in relative mositure funciton to get percent value
+val = rel_moisture(val_raw)
+print(val)
+
+if val < limit_u:
+    #do something
+    print('I need water!')
+elif val > limit_l:
+    #do something
+    print('I am drowning!')
 else:
-    print(f'Warning: Measurement went wrong {val}')
-
+    print('I feel fine')
 </code></pre>
+
+</p>
+
+
+---
+## Lection 5: Real-time-clock DS3231
+---
+
+<p>
+
+In this lection we take a short look on the [RTC](#ds3231-rtc-module) module and check its functionality. We will initially set the clock time, as long as its battery is connected the device should be synchronous. The module should be able to keep track of accurate time ofer long periods. <br>
+Now upload the following code snipet, it should simply set the given time and then print the time every 5 seconds. If we just want to read the time afterwards uncoment the statment where we set the time of the device.
+
+Build up the circuit according to the following: <br>
+![ds3231 module](./docs/lec5.png)
+
+<br>
+
+Upload the [code](./code/lec5.py):
+<pre><code>
+from ds3231_impl import ds3231
+import time
+
+I2C_PORT = 0
+I2C_SDA = 16
+I2C_SCL = 17
+
+rtc = ds3231(I2C_PORT,I2C_SCL,I2C_SDA) #init serial communication with RTC module
+time.sleep_ms(20) #give init process some time
+rtc.set_time('13:26:25,Tuesday,2022-03-22') #set rtc time uncomment if needed
+time.sleep_ms(20)
+
+while 1:
+    print(rtc.read_time()) #read time and print it
+    time.sleep(5) #sleep 5 seconds
+</code></pre>
+
+
+
 
 </p>
