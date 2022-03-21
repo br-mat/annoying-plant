@@ -65,12 +65,15 @@ I provided a short BASICS summary, to explain briefly basic functionalities in P
 
 <p>
 
+Main goal of this project is to realize a speaking plant. The existing code should give a framework to customize according to your needs. As the project was originally oriented towards beginners i try to keep the code easy readable and understandable. The circuit works stable after some testing, nontheless some improvements might follow in future. <br>
+
+Main code:
+Upload the [main.py](./code/main.py) file to your Pico and build the circuit following the scematic below.
+
 Main sketch:
 ![annoying plant circuit](./docs/main_v1.png)
 
-<br>
 
-Main goal of this project is to realize a speaking plant. The existing code should give a framework to customize according to your needs. As the project was originally oriented towards beginners i try to keep the code easy readable and understandable. The circuit works stable after some testing, nontheless some improvements might follow in future. <br>
 
 <br>
 
