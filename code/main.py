@@ -70,7 +70,7 @@ if __name__ == '__main__':
     print(rtc.read_time())
     y, month, day, h, min1, sec1, wday=rtc.read_time()
     if min1 in match_min: #check for correct time
-    #if True:
+    #if True: #test statement
         print('check plant condition')
         sounds={'music': [1, 2], 'voicline_thirsty_aut': [2, 16], 'voiceline_random_aut': [3, 22]} # dictionary containing lists [folder, num tracks]
         time.sleep(1)
@@ -81,9 +81,9 @@ if __name__ == '__main__':
         a_read = sum(vals)/len(vals)
         
         #if _low <= a_read <= _up: #check for reasonable values
-        if True:
+        if True: #test statement
             #if a_read > dry_baseline: #check if plant is dry
-            if False:
+            if False: #test statement
                 print('AAH! Saufen!')
                 #using dictionarys as workaround for problems with folder system on the module
                 pick_random_track(sounds['voicline_thirsty_aut'])
