@@ -693,7 +693,7 @@ else:
 
 <p>
 
-In this lection we take a short look on the [RTC](#ds3231-rtc-module) module and check its functionality. We will initially set the clock time, as long as its battery is connected the device should be synchronous. The module should be able to keep track of accurate time ofer long periods. <br>
+In this lection we take a short look on the [RTC](#ds3231-rtc-module) module and check its functionality. We will initially set the clock time, as long as its battery is connected the device should be synchronous. The module should be able to keep track of accurate time ofer long periods. <br> Keep in mind if you use a different Microcontroller that you have to shift the Voltage levels. Because our Pico outputs 3.3V on its Digital pins we do not risk damaging the RTC Module. <br>
 Now upload the following code snipet, it should simply set the given time and then print the time every 5 seconds. If we just want to read the time afterwards uncoment the statment where we set the time of the device.
 
 Build up the circuit according to the following: <br>
