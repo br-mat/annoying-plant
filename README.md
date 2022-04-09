@@ -693,7 +693,7 @@ else:
 
 <p>
 
-In this lection we take a short look on the [RTC](#ds3231-rtc-module) module and check its functionality. We will initially set the clock time, as long as its battery is connected the device should be synchronous. The module should be able to keep track of accurate time ofer long periods. <br> Keep in mind if you use a different Microcontroller that you have to shift the Voltage levels. Because our Pico outputs 3.3V on its Digital pins we do not risk damaging the RTC Module. <br>
+In this lection we take a short look on the [RTC](#ds3231-rtc-module) module and check its functionality. We will initially set the clock time, as long as its battery is connected the device should be synchronous. The module should be able to keep track of accurate time ofer long periods. <br> Keep in mind if you use a different Microcontroller that you have to shift the Voltage levels. Because our Pico outputs 3.3V on its Digital pins we do not risk damaging the RTC Module or the Pico. <br>
 Now upload the following code snipet, it should simply set the given time and then print the time every 5 seconds. If we just want to read the time afterwards uncoment the statment where we set the time of the device.
 
 Build up the circuit according to the following: <br>
@@ -701,7 +701,8 @@ Build up the circuit according to the following: <br>
 
 <br>
 
-Upload the [code](./code/lec5.py):
+Usually you just have to set the time once, when a battery is inserted it should be able to keep the time for long periods.
+Upload the [code](./code/lec5.py) and the used [library](./code/ds3231_impl.py):
 <pre><code>
 from ds3231_impl import ds3231
 import time
@@ -712,7 +713,7 @@ I2C_SCL = 17
 
 rtc = ds3231(I2C_PORT,I2C_SCL,I2C_SDA) #init serial communication with RTC module
 time.sleep_ms(20) #give init process some time
-rtc.set_time('13:26:25,Tuesday,2022-03-22') #set rtc time uncomment if needed
+rtc.set_time('13:26:25,Tuesday,2022-03-22') #set rtc time uncomment if not wanted
 time.sleep_ms(20)
 
 while 1:
