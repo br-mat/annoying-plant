@@ -86,6 +86,10 @@ def pick_random_track(content_list):
     # Play the selected track in the specified folder
     music.play(number, content_list[0])
     
+    # Wait for the track to finish playing (optimized?)
+    #while music.is_playing():
+    #    time.sleep(0.1)
+    
     # Wait for 12 seconds and stop playback
     time.sleep(12)
     music.stop()
